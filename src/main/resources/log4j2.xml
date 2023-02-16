@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="MyApp" packages="com.expensemanagement">
+    <Properties>
+        <Property name="filename" value="C:/logs/ExpenseManagement.log"></Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout>
+                <Pattern>%-5p: %d{dd MMM yyyy HH:mm:ss.SSS} %-5l - %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+        <File name="MyFile" fileName="${filename}">
+            <PatternLayout>
+                <Pattern>%-5p: %d{dd MMM yyyy HH:mm:ss.SSS} %-5l - %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.expensemanagement.controllers" level="info" additivity="false">
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Logger name="com.expensemanagement.service" level="info" additivity="false">
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Logger name="com.expensemanagement.repositories" level="info" additivity="false">
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Logger name="com.expensemanagement.utilities" level="info" additivity="false">
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Logger name="com.expensemanagement" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
