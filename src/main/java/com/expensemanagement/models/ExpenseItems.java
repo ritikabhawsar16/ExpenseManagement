@@ -1,6 +1,7 @@
 package com.expensemanagement.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,13 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
+<<<<<<< HEAD
 @Table(catalog = "EmployeeDB", schema = "expense_schema",name="ExpenseManagement")
+=======
+@Table(name="ExpenseManagement", catalog = "EmployeeDB", schema = "expense_schema")
+>>>>>>> 685a2f0ba8dd44cd71939e073bea6a4b536a3620
 public class ExpenseItems {
 
     @Id

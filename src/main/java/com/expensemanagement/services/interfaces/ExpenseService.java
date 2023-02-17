@@ -10,4 +10,8 @@ public interface ExpenseService {
 
     public String updateExpense(int id,ExpenseItems expenseItems);
 
+<<<<<<< HEAD
+=======
+    public ExpenseItems getExpenseById(int id) throws NoSuchFieldException;
+>>>>>>> 685a2f0ba8dd44cd71939e073bea6a4b536a3620
 }
