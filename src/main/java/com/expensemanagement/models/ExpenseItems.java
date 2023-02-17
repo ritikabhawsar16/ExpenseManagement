@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="ExpenseManagement")
+@Table(catalog = "EmployeeDB", schema = "expense_schema",name="ExpenseManagement")
 public class ExpenseItems {
 
     @Id
