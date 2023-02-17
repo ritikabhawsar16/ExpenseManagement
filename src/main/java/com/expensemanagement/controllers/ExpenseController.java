@@ -1,29 +1,21 @@
 package com.expensemanagement.controllers;
-<<<<<<< HEAD
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-=======
-import com.expensemanagement.models.ExpenseItems;
-import com.expensemanagement.services.interfaces.ExpenseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
->>>>>>> 685a2f0ba8dd44cd71939e073bea6a4b536a3620
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
 import com.expensemanagement.models.ExpenseItems;
 import com.expensemanagement.services.interfaces.ExpenseService;
-=======
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
->>>>>>> 685a2f0ba8dd44cd71939e073bea6a4b536a3620
 
 @RestController
 public class ExpenseController {
@@ -47,13 +39,10 @@ public class ExpenseController {
         return  new ResponseEntity<>(this.expenseService.updateExpense(id,expenseItems), HttpStatus.OK);
     }
 
-<<<<<<< HEAD
-=======
     @GetMapping("/getExpenseById/{id}")
     public ResponseEntity<ExpenseItems> getExpenseById(@PathVariable("id") int id, HttpServletRequest request) throws NoSuchFieldException {
         LOGGER.info("API Call From IP: " + request.getRemoteHost());
         return new ResponseEntity<>(expenseService.getExpenseById(id), HttpStatus.OK);
     }
->>>>>>> 685a2f0ba8dd44cd71939e073bea6a4b536a3620
 
 }
