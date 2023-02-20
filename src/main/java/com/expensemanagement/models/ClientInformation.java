@@ -15,22 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-<<<<<<< HEAD
-@Table(catalog = "EmployeeDB", schema = "expense_schema",name="client_information")
-public class ClientInformation {
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
-	private int id;
-	private String companyName;
-	private String address;
-	private Long phone;
-	private String email;
-	private String contactPerson;
-	private String gstin;
-}
-=======
 @Table(name = "client_information", catalog = "EmployeeDB", schema = "expense_schema")
 public class ClientInformation {
 	@Id
@@ -54,7 +38,6 @@ public class ClientInformation {
 	private String gstin;
 
 	@Column(name = "phone", nullable = false)
-	private int phone;
-
+	private Long phone;
 }
->>>>>>> 42c5eaae09df00cf9d81c1d50684871d64b07cc7
+

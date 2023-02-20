@@ -11,7 +11,6 @@ public interface ExpenseService {
 
     public String updateExpense(int id,ExpenseItems expenseItems);
 
-
     public ExpenseItems getExpenseById(int id) throws NoSuchFieldException;
 
 	public String saveOutboundExpense(ExpenseOutbound expenseOutbound);
