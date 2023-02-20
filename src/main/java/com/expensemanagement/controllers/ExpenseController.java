@@ -1,4 +1,5 @@
 package com.expensemanagement.controllers;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.expensemanagement.models.ExpenseItems;
+import com.expensemanagement.models.ExpenseOutbound;
 import com.expensemanagement.services.interfaces.ExpenseService;
 
 @RestController
@@ -44,5 +46,20 @@ public class ExpenseController {
         LOGGER.info("API Call From IP: " + request.getRemoteHost());
         return new ResponseEntity<>(expenseService.getExpenseById(id), HttpStatus.OK);
     }
+    
+    @PostMapping("/saveOutboundExpense")
+    public ResponseEntity<String> saveOutboundExpense(@RequestBody ExpenseOutbound expenseOutbound,HttpServletRequest request){
+    	
+    	  LOGGER.info("API Call From IP: " + request.getRemoteHost());
+    	return new ResponseEntity<>(expenseService.saveOutboundExpense(expenseOutbound),HttpStatus.OK);
+    }
+    
+    @PutMapping("updateOutboundExpense")
+    public ResponseEntity<String> updateOutboundExpense(@RequestBody ExpenseOutbound expenseOutbound,HttpServletRequest request){
+    	
+  	  LOGGER.info("API Call From IP: " + request.getRemoteHost());
+  	return new ResponseEntity<>(expenseService.updateOutboundExpense(expenseOutbound),HttpStatus.OK);
+  }
+    
 
 }
