@@ -1,7 +1,9 @@
 package com.expensemanagement.services.implementations;
 
 import com.expensemanagement.models.ExpenseItems;
+import com.expensemanagement.models.ExpenseOutbound;
 import com.expensemanagement.repositories.ExpenseRepository;
+import com.expensemanagement.repositories.OutboundExpenseRepo;
 import com.expensemanagement.services.interfaces.ExpenseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +25,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private OutboundExpenseRepo outboundExpenseRepo;
 
     @Override
     public ExpenseItems createExpenses(ExpenseItems expenseItems) {
@@ -63,4 +68,37 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
         return expenseItems.get();
     }
+
+	@Override
+	public String saveOutboundExpense(ExpenseOutbound expenseOutbound) {
+		outboundExpenseRepo.save(expenseOutbound);
+		return "Saved Successfully id is :"+expenseOutbound.getExpenseId();
+	}
+
+	@Override
+	public String updateOutboundExpense(ExpenseOutbound expenseOutbound) {
+		// TODO Auto-generated method stub
+	Optional<ExpenseOutbound> outboundExp =outboundExpenseRepo.findById(expenseOutbound.getExpenseId());
+	if (!outboundExp.isPresent()) {
+        String message = messageSource.getMessage("api.error.data.not.found.id", null, Locale.ENGLISH);
+        LOGGER.error(message=message+expenseOutbound.getExpenseId());
+        throw new EntityNotFoundException(message);
+    }
+	outboundExp.get().setBalance(expenseOutbound.getBalance());
+	outboundExp.get().setBillingPeriod(expenseOutbound.getBillingPeriod());
+	outboundExp.get().setChargedAmount(expenseOutbound.getChargedAmount());
+	outboundExp.get().setCustomerId(expenseOutbound.getCustomerId());
+	outboundExp.get().setDate(expenseOutbound.getDate());
+	outboundExp.get().setDateRecieved(expenseOutbound.getDateRecieved());
+	outboundExp.get().setGst(expenseOutbound.getGst());
+	outboundExp.get().setGstPeriod(expenseOutbound.getGstPeriod());
+	outboundExp.get().setInrRecievable(expenseOutbound.getInrRecievable());
+	outboundExp.get().setInrRecieved(expenseOutbound.getInrRecieved());
+	outboundExp.get().setInvoiceAmtInr(expenseOutbound.getInvoiceAmtInr());
+	outboundExp.get().setMode(expenseOutbound.getMode());
+	outboundExp.get().setTds(expenseOutbound.getTds());
+	
+	outboundExpenseRepo.save(outboundExp.get());
+		return "Successfully Updated id is :"+expenseOutbound.getExpenseId();
+	}
 }
