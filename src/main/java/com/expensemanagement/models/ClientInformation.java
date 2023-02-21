@@ -38,6 +38,6 @@ public class ClientInformation {
 	private String gstin;
 
 	@Column(name = "phone", nullable = false)
-	private int phone;
-
+	private Long phone;
 }
+

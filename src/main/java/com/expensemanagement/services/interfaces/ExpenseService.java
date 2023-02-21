@@ -1,8 +1,11 @@
 package com.expensemanagement.services.interfaces;
 
+import org.springframework.stereotype.Repository;
+
 import com.expensemanagement.models.ExpenseItems;
 import com.expensemanagement.models.ExpenseOutbound;
 
+@Repository
 public interface ExpenseService {
     public ExpenseItems createExpenses(ExpenseItems expenseItems);
 

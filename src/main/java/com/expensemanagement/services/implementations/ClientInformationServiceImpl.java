@@ -1,5 +1,6 @@
 package com.expensemanagement.services.implementations;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -11,28 +12,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import com.expensemanagement.controllers.ClientInformationController;
 import com.expensemanagement.models.ClientInformation;
-import com.expensemanagement.repositories.ClientInformationRepository;
+import com.expensemanagement.models.ResponseModel;
+import com.expensemanagement.repositories.ClientInformationRepo;
 import com.expensemanagement.services.interfaces.ClientInformationService;
 
 @Service
-class ClientInfoServiceImpl implements ClientInformationService {
-	private static final Logger LOGGER = LogManager.getLogger(ClientInfoServiceImpl.class);
+public class ClientInformationServiceImpl implements ClientInformationService{
+	
 	@Autowired
-	private ClientInformationRepository clientInformationRepository;
+	private ClientInformationRepo informationRepo;
+	
+    private static final Logger LOGGER = LogManager.getLogger(ClientInformationController.class);
 
 	@Autowired
 	private MessageSource messageSource;
-
+	
 	@Override
-	public ClientInformation createClientInfo(ClientInformation clientInformation) {
-		ClientInformation clientInfo = clientInformationRepository.save(clientInformation);
-		return clientInfo;
+	public ResponseModel saveClientInfo(ClientInformation clientInfo) {
+ 	informationRepo.save(clientInfo);
+ 	ResponseModel responseModel=new ResponseModel();
+ 	responseModel.setMsg("Success");
+		return responseModel;
 	}
 
 	@Override
+	public List<ClientInformation> getAllClientInfo() {
+	     List<ClientInformation> list = informationRepo.findAll();
+		return list;
+	}
+	
+	@Override
 	public String updateClientInfo(int id, ClientInformation clientInformation) {
-		Optional<ClientInformation> clientInfo = clientInformationRepository.findById(id);
+		Optional<ClientInformation> clientInfo = informationRepo.findById(id);
 		if (!clientInfo.isPresent()) {
 			String message = messageSource.getMessage("api.error.data.not.found.id", null, Locale.ENGLISH);
 			LOGGER.error(message = message + id);
@@ -44,8 +57,7 @@ class ClientInfoServiceImpl implements ClientInformationService {
 		clientInfo.get().setEmail(clientInformation.getEmail());
 		clientInfo.get().setGstin(clientInformation.getGstin());
 		clientInfo.get().setPhone(clientInformation.getPhone());
-		clientInformationRepository.save(clientInfo.get());
+		informationRepo.save(clientInfo.get());
 		return "update successfully";
 	}
-
 }
