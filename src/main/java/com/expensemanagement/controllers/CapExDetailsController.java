@@ -1,5 +1,7 @@
 package com.expensemanagement.controllers;
 
+import java.net.http.HttpRequest;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,22 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.expensemanagement.models.CapExDetails;
+import com.expensemanagement.services.interfaces.CapExDetailsService;
 
-import com.expensemanagement.models.ClientInformation;
-import com.expensemanagement.services.interfaces.ClientInformationService;
+@RestController
+@RequestMapping("/capExDetails")
+public class CapExDetailsController {
+	
+	private static final Logger LOGGER = LogManager.getLogger(CapExDetailsController.class);
+	
+	@Autowired
+	private CapExDetailsService capExDetailsService;
 
-
-	@RestController
-	@RequestMapping("/clientInfo")
-	public class CapExDetailsController {
-		 private static final Logger LOGGER = LogManager.getLogger(ClientInfoController.class);
-		@Autowired
-		private ClientInformationService clientInformationService;
-
-		@PostMapping("/createClientInfo")
-		public ResponseEntity<ClientInformation> createClientinfo(@RequestBody ClientInformation clientInformation,HttpServletRequest request) {
-			LOGGER.info("API Call From IP: " + request.getRemoteHost());
-			ClientInformation clientInfo = clientInformationService.createClientInfo(clientInformation);
-			return new ResponseEntity<>(clientInfo, HttpStatus.OK);
-		}
+	@PostMapping("/createCapExDetails")
+	public ResponseEntity<CapExDetails> createCapExDetails(@RequestBody CapExDetails capExDetails,
+			HttpServletRequest request) {
+		LOGGER.info("API Call From IP: " + request.getRemoteHost());
+		CapExDetails details = capExDetailsService.createCapExDetails(capExDetails);
+		return new ResponseEntity<>(details, HttpStatus.OK);
+	}
 }

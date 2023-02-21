@@ -1,8 +1,6 @@
 package com.expensemanagement.models;
 
 import java.time.LocalDate;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,42 +13,38 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "cap_ex_details", catalog = "EmployeeDB", schema = "expense_schema")
+public class CapExDetails {
 
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Builder
-	@Entity
-	@Table(name="cap_ex_details", catalog = "EmployeeDB", schema = "expense_schema")
-	public class CapExDetails {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
+	private int id;
 
-	    @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(columnDefinition = "serial")
-	    private int id;
+	@Column(name = "date", nullable = false)
+	private LocalDate date;
 
-	    @Column(name="date", nullable = false)
-	    private Date date;
+	@Column(name = "expense_details", nullable = false)
+	private String expenseDetails;
 
-	    @Column(name="expense_details", nullable = false)
-	    private String expenseDetails;
+	@Column(name = "gst_bill", nullable = false)
+	private String gstBill;
 
-	    @Column(name="gst_bill", nullable = false)
-	    private String gstBill;
+	@Column(name = "amount", nullable = false)
+	private Integer amount;
 
-	    @Column(name="amount", nullable = false)
-	    private LocalDate amount;
+	@Column(name = "paid_by", nullable = false)
+	private String paidBy;
 
-	    @Column(name="paid_by", nullable = false)
-	    private String paidBy;
+	@Column(name = "comment", nullable = false)
+	private String comment;
 
-	    @Column(name="comment", nullable = false)
-	    private String comment;
+	@Column(name = "mode", nullable = false)
+	private String mode;
 
-	    @Column(name="mode", nullable = false)
-	    private boolean mode;
-
-	   
-	}
-
-
+}
