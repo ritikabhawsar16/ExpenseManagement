@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 import com.expensemanagement.models.ExpenseItems;
 import com.expensemanagement.models.ExpenseOutbound;
 
+import java.text.ParseException;
+import java.util.List;
+
 @Repository
 public interface ExpenseService {
     public ExpenseItems createExpenses(ExpenseItems expenseItems);
@@ -16,4 +19,8 @@ public interface ExpenseService {
 	public String saveOutboundExpense(ExpenseOutbound expenseOutbound);
 
 	public String updateOutboundExpense(ExpenseOutbound expenseOutbound);
+
+    public List<ExpenseItems> getAllExpenses();
+
+    public List<ExpenseItems> getExpenseByDateRange(String from, String to) throws ParseException;
 }
