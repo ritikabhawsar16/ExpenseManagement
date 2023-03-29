@@ -12,6 +12,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -101,4 +109,28 @@ public class ExpenseServiceImpl implements ExpenseService {
 	outboundExpenseRepo.save(outboundExp.get());
 		return "Successfully Updated id is :"+expenseOutbound.getExpenseId();
 	}
+
+    @Override
+    public List<ExpenseItems> getAllExpenses() {
+        List<ExpenseItems> expenseItemsList = expenseRepository.findAll();
+        return expenseItemsList;
+    }
+
+    @Override
+    public List<ExpenseItems> getExpenseByDateRange(String from, String to) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDate startDate = LocalDate.parse(from, formatter);
+        LocalDate endDate = LocalDate.parse(to, formatter);
+        Date utilDate = new Date();
+        Instant instant = utilDate.toInstant();
+        LocalDate currentDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        if(startDate.isAfter(endDate) || currentDate.isBefore(endDate) || daysBetween > 214) {
+            String message = messageSource.getMessage("api.error.date.range", null, Locale.ENGLISH);
+            LOGGER.error(message = message+" fromDate : "+startDate+" To : "+endDate);
+            throw new IllegalArgumentException(message);
+        }
+        List<ExpenseItems> expenseItemsList = expenseRepository.getExpenseByDateRange(startDate,endDate);
+        return expenseItemsList;
+    }
 }
