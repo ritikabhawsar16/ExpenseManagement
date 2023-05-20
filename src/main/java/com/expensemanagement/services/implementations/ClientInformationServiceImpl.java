@@ -60,4 +60,15 @@ public class ClientInformationServiceImpl implements ClientInformationService{
 		informationRepo.save(clientInfo.get());
 		return "update successfully";
 	}
+	
+	//** HRMS-54 START **
+	@Override
+	public ClientInformation getClientInfoById(int clientId) {
+		Optional<ClientInformation> opt = informationRepo.findById(clientId);
+		if(opt.isEmpty()) 
+			return null;
+		
+		return opt.get();
+	}
+	//** HRMS-54 END **
 }
