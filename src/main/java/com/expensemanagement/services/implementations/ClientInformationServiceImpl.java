@@ -65,7 +65,7 @@ public class ClientInformationServiceImpl implements ClientInformationService{
 	@Override
 	public ClientInformation getClientInfoById(int clientId) {
 		Optional<ClientInformation> opt = informationRepo.findById(clientId);
-		if(opt.isEmpty()) 
+		if(!opt.isPresent()) 
 			return null;
 		
 		return opt.get();
