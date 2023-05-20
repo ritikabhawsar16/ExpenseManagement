@@ -53,4 +53,15 @@ public class ClientInformationController {
 		return new ResponseEntity<>(informationService.updateClientInfo(id, clientInformation),
 				HttpStatus.OK);
 	}
+	//***** HRMS-54 START Added new handler method to get Client information using client id  *****
+	@GetMapping("/getClientInfoById/{clientId}")
+	public ResponseEntity<ClientInformation> getClientInformationById(@PathVariable("clientId") int clientId){
+		LOGGER.info("Expense Management: ClientInformationController: getClientInformationById info level log message");
+		ClientInformation clientInfo = informationService.getClientInfoById(clientId);
+		if(clientInfo == null)
+			return ResponseEntity.notFound().build();
+		
+		return ResponseEntity.ok(clientInfo);
+	}
+	//***** HRMS-54 END ***
 }
