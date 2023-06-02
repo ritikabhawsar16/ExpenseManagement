@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +17,13 @@ import com.expensemanagement.services.interfaces.CapExDetailsService;
 @RestController
 @RequestMapping("/capExDetails")
 public class CapExDetailsController {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger(CapExDetailsController.class);
-	
+
 	@Autowired
 	private CapExDetailsService capExDetailsService;
 
+	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
 	@PostMapping("/createCapExDetails")
 	public ResponseEntity<CapExDetails> createCapExDetails(@RequestBody CapExDetails capExDetails,
 			HttpServletRequest request) {
