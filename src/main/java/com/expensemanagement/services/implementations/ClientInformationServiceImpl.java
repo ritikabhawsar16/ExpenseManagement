@@ -6,43 +6,42 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import com.expensemanagement.controllers.ClientInformationController;
 import com.expensemanagement.models.ClientInformation;
 import com.expensemanagement.models.ResponseModel;
 import com.expensemanagement.repositories.ClientInformationRepo;
 import com.expensemanagement.services.interfaces.ClientInformationService;
 
 @Service
-public class ClientInformationServiceImpl implements ClientInformationService{
-	
+public class ClientInformationServiceImpl implements ClientInformationService {
+
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private ClientInformationRepo informationRepo;
-	
-    private static final Logger LOGGER = LogManager.getLogger(ClientInformationController.class);
 
 	@Autowired
 	private MessageSource messageSource;
-	
+
 	@Override
 	public ResponseModel saveClientInfo(ClientInformation clientInfo) {
- 	informationRepo.save(clientInfo);
- 	ResponseModel responseModel=new ResponseModel();
- 	responseModel.setMsg("Success");
+		informationRepo.save(clientInfo);
+		ResponseModel responseModel = new ResponseModel();
+		responseModel.setMsg("Success");
 		return responseModel;
 	}
 
 	@Override
 	public List<ClientInformation> getAllClientInfo() {
-	     List<ClientInformation> list = informationRepo.findAll();
+		List<ClientInformation> list = informationRepo.findAll();
 		return list;
 	}
-	
+
 	@Override
 	public String updateClientInfo(int id, ClientInformation clientInformation) {
 		Optional<ClientInformation> clientInfo = informationRepo.findById(id);
@@ -60,15 +59,13 @@ public class ClientInformationServiceImpl implements ClientInformationService{
 		informationRepo.save(clientInfo.get());
 		return "update successfully";
 	}
-	
-	//** HRMS-54 START **
+
 	@Override
 	public ClientInformation getClientInfoById(int clientId) {
 		Optional<ClientInformation> opt = informationRepo.findById(clientId);
-		if(!opt.isPresent()) 
+		if (!opt.isPresent())
 			return null;
-		
+
 		return opt.get();
 	}
-	//** HRMS-54 END **
 }
