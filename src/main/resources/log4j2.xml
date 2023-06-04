@@ -38,7 +38,7 @@
 			<appender-ref ref="fileLogger" />
 			<AppenderRef ref="consoleLogger" />
 		</Logger>
-		<Logger name="com.expensemanagement" level="INFO" additivity="false">
+		<Logger name="com.adt.expensemanagement" level="INFO" additivity="false">
 			<appender-ref ref="fileLogger" />
 			<AppenderRef ref="consoleLogger" />
 		</Logger>

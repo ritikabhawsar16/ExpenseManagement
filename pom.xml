@@ -9,11 +9,11 @@
 		<version>2.7.5</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.expensemanagement</groupId>
+	<groupId>com.adt</groupId>
 	<artifactId>expensemanagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>expensemanagement</name>
-	<description>AlphaDot ExpenseManagement</description>
+	<description>expensemanagement service</description>
 	<properties>
 		<java.version>11</java.version>
 		<jjwt.version>0.9.1</jjwt.version>
