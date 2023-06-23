@@ -13,6 +13,12 @@ public interface ClientInformationService {
 	//** HRMS-54 START Added new service interface method **
 	public ClientInformation getClientInfoById(int clientId);
 	//** HRMS-54 END **
+	
+	// ------------** Jira No. HRMS-84 START **-----------
+	public List<ClientInformation> SearchByCompany(String companyName);
+	public List<ClientInformation> SearchByEmail(String email);
+	//------------ ** Jira No. HRMS-84 END **-------------
+
 }
 
 
