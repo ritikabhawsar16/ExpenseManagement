@@ -68,4 +68,20 @@ public class ClientInformationServiceImpl implements ClientInformationService {
 
 		return opt.get();
 	}
+
+	// -----------------** Jira No. HRMS-84 START **-------------
+
+	@Override
+	public List<ClientInformation> SearchByCompany(String companyName) {
+		List<ClientInformation> list=informationRepo.findByCompanyName(companyName);
+		return list;
+	}
+
+	@Override
+	public List<ClientInformation> SearchByEmail(String email) {
+		List<ClientInformation> list=informationRepo.findByEmail(email);
+		return list;
+	}
+	//---------- ** Jira No. HRMS-84 END **-----------
+
 }

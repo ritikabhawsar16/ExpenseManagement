@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adt.expensemanagement.models.ClientInformation;
@@ -66,4 +67,26 @@ public class ClientInformationController {
 
 		return ResponseEntity.ok(clientInfo);
 	}
-}
+	
+	//--------------- ** Jira No. HRMS-84 START **---------------------
+
+	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@GetMapping("/searchByCompany")
+	public ResponseEntity<List<ClientInformation>> SearchByCompany(@RequestParam("query") String companyName) {
+		LOGGER.info("Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message");
+		return ResponseEntity.ok(informationService.SearchByCompany(companyName));
+	}
+	
+	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@GetMapping("/searchByEmail")
+	public ResponseEntity<List<ClientInformation>> SearchByEmail(@RequestParam("query") String email) {
+		LOGGER.info("Expense Management: getClientByemail : getClientByemail Info level log message");
+		return ResponseEntity.ok(informationService.SearchByEmail(email));
+	}
+	
+	//--------------------- ** Jira No. HRMS-84 END **--------------------
+
+
+	}
+	
+
