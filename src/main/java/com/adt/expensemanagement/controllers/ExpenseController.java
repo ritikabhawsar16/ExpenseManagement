@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(this.expenseService.updateExpense(id, expenseItems), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+//	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
 	@GetMapping("/getExpenseById/{id}")
 	public ResponseEntity<ExpenseItems> getExpenseById(@PathVariable("id") int id, HttpServletRequest request)
 			throws NoSuchFieldException {
@@ -89,4 +90,11 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.getExpenseByDateRange(from, to), HttpStatus.OK);
 	}
 
+//	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@DeleteMapping("/deleteExpenseById")
+	public ResponseEntity<String> deleteExpenseByIds(@RequestBody List<Integer> ids, HttpServletRequest request)
+			throws NoSuchFieldException {
+		LOGGER.info("API Call From IP: " + request.getRemoteHost());
+		return new ResponseEntity<>(expenseService.deleteExpenseById(ids), HttpStatus.OK);
 }
+	}
