@@ -20,7 +20,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -132,4 +134,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 		List<ExpenseItems> expenseItemsList = expenseRepository.getExpenseByDateRange(startDate, endDate);
 		return expenseItemsList;
 	}
+
+	@Override
+	public String deleteExpenseById(List<Integer> ids) {
+		expenseRepository.deleteAllById(ids);
+		return "Data Deleted Successfully";
+	}
+
 }

@@ -11,9 +11,10 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Table(name ="expense_outbound")
+
 @Data
 @Entity
+@Table(catalog = "EmployeeDB", schema = "expense_schema",name="expense_outbound")
 public class ExpenseOutbound {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
