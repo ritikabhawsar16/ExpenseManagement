@@ -7,6 +7,7 @@ import com.adt.expensemanagement.models.ExpenseOutbound;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface ExpenseService {
@@ -23,4 +24,7 @@ public interface ExpenseService {
     public List<ExpenseItems> getAllExpenses();
 
     public List<ExpenseItems> getExpenseByDateRange(String from, String to) throws ParseException;
+
+	public String deleteExpenseById(List<Integer> ids);
+    
 }
