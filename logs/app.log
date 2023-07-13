@@ -1,0 +1,59 @@
+11:31:54.324 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Starting ExpenseManagementApplication using Java 17.0.7 on DESKTOP-VMOID57 with PID 11524 (D:\ExpenseMngmnt1\ExpenseManagement\target\classes started by hp in D:\ExpenseMngmnt1\ExpenseManagement)
+11:31:54.336 [main] DEBUG com.adt.expensemanagement.ExpenseManagementApplication / - Running with Spring Boot v2.7.5, Spring v5.3.23
+11:31:54.338 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - No active profile set, falling back to 1 default profile: "default"
+11:31:56.003 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat initialized with port(s): 9095 (http)
+11:31:56.173 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext / - Root WebApplicationContext: initialization completed in 1794 ms
+11:31:59.018 [main] WARN  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration / - 
+
+Using generated security password: 76fad0db-8bbe-4790-a4a9-3c21c193722a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+11:31:59.233 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration / - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+11:32:00.091 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat started on port(s): 9095 (http) with context path '/expensemanagement'
+11:32:00.151 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Started ExpenseManagementApplication in 6.285 seconds (JVM running for 7.291)
+11:32:06.950 [http-nio-9095-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet 6495355e1eb0f6d2c1e3a5707aa4a864/c1e3a5707aa4a864 - Initializing Servlet 'dispatcherServlet'
+11:32:06.953 [http-nio-9095-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet 6495355e1eb0f6d2c1e3a5707aa4a864/c1e3a5707aa4a864 - Completed initialization in 2 ms
+11:32:07.005 [http-nio-9095-exec-2] INFO  com.adt.expensemanagement.controllers.ClientInformationController 6495355e1eb0f6d2c1e3a5707aa4a864/c1e3a5707aa4a864 - Expense Management: getClientByemail : getClientByemail Info level log message
+11:32:21.462 [http-nio-9095-exec-3] INFO  com.adt.expensemanagement.controllers.ClientInformationController 6495356dc8d4a919aa364083b2f293d6/aa364083b2f293d6 - Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message
+11:32:36.567 [http-nio-9095-exec-4] INFO  com.adt.expensemanagement.controllers.ClientInformationController 6495357ca2958d06c8b3605d3fff5867/c8b3605d3fff5867 - Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message
+11:35:18.066 [http-nio-9095-exec-7] INFO  com.adt.expensemanagement.controllers.ClientInformationController 6495361e2081e23d30ae36fbad8f560e/30ae36fbad8f560e - Expense Management: getClientByemail : getClientByemail Info level log message
+11:36:00.852 [http-nio-9095-exec-8] INFO  com.adt.expensemanagement.controllers.ClientInformationController 649536481e64e56e7d313fa7507cfa8c/7d313fa7507cfa8c - Expense Management: getClientByemail : getClientByemail Info level log message
+11:36:27.091 [http-nio-9095-exec-9] INFO  com.adt.expensemanagement.controllers.ClientInformationController 649536632809dcf45fd088f3af7a44a1/5fd088f3af7a44a1 - Expense Management: getClientByemail : getClientByemail Info level log message
+11:36:49.889 [http-nio-9095-exec-10] INFO  com.adt.expensemanagement.controllers.ClientInformationController 649536797b9302bc3731e27940529f1a/3731e27940529f1a - Expense Management: getClientByemail : getClientByemail Info level log message
+11:37:20.491 [http-nio-9095-exec-1] INFO  com.adt.expensemanagement.controllers.ClientInformationController 649536986ae06412bda307258c19a2c7/bda307258c19a2c7 - Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message
+11:37:59.854 [RMI TCP Connection(8)-127.0.0.1] INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin / - Application shutdown requested.
+11:52:40.983 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Starting ExpenseManagementApplication using Java 17.0.7 on DESKTOP-VMOID57 with PID 11924 (D:\ExpenseMngmnt1\ExpenseManagement\target\classes started by hp in D:\ExpenseMngmnt1\ExpenseManagement)
+11:52:40.995 [main] DEBUG com.adt.expensemanagement.ExpenseManagementApplication / - Running with Spring Boot v2.7.5, Spring v5.3.23
+11:52:40.996 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - No active profile set, falling back to 1 default profile: "default"
+11:52:42.470 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat initialized with port(s): 9095 (http)
+11:52:42.624 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext / - Root WebApplicationContext: initialization completed in 1585 ms
+11:52:45.032 [main] WARN  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration / - 
+
+Using generated security password: d8963de0-f9b4-4d6f-b0bd-156daf7532ed
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+11:52:45.213 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration / - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+11:52:46.033 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat started on port(s): 9095 (http) with context path '/expensemanagement'
+11:52:46.094 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Started ExpenseManagementApplication in 5.492 seconds (JVM running for 6.455)
+11:54:56.936 [RMI TCP Connection(6)-127.0.0.1] INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin / - Application shutdown requested.
+11:56:20.750 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Starting ExpenseManagementApplication using Java 17.0.7 on DESKTOP-VMOID57 with PID 11784 (D:\ExpenseMngmnt1\ExpenseManagement\target\classes started by hp in D:\ExpenseMngmnt1\ExpenseManagement)
+11:56:20.757 [main] DEBUG com.adt.expensemanagement.ExpenseManagementApplication / - Running with Spring Boot v2.7.5, Spring v5.3.23
+11:56:20.758 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - No active profile set, falling back to 1 default profile: "default"
+11:56:22.284 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat initialized with port(s): 9095 (http)
+11:56:22.443 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext / - Root WebApplicationContext: initialization completed in 1647 ms
+11:56:24.962 [main] WARN  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration / - 
+
+Using generated security password: 10203e69-f1d9-4db6-a6f1-06805699ae30
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+11:56:25.155 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration / - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+11:56:26.010 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer / - Tomcat started on port(s): 9095 (http) with context path '/expensemanagement'
+11:56:26.073 [main] INFO  com.adt.expensemanagement.ExpenseManagementApplication / - Started ExpenseManagementApplication in 5.713 seconds (JVM running for 6.666)
+11:57:20.403 [http-nio-9095-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet 64953b48563681a6285d128d7baf4c15/285d128d7baf4c15 - Initializing Servlet 'dispatcherServlet'
+11:57:20.405 [http-nio-9095-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet 64953b48563681a6285d128d7baf4c15/285d128d7baf4c15 - Completed initialization in 2 ms
+11:57:20.487 [http-nio-9095-exec-1] INFO  com.adt.expensemanagement.controllers.ClientInformationController 64953b48563681a6285d128d7baf4c15/285d128d7baf4c15 - Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message
+11:57:48.072 [http-nio-9095-exec-3] INFO  com.adt.expensemanagement.controllers.ClientInformationController 64953b64d79bad3232153c6c503e8e47/32153c6c503e8e47 - Expense Management: getClientByemail : getClientByemail Info level log message
+14:06:41.322 [RMI TCP Connection(106)-127.0.0.1] INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin / - Application shutdown requested.
