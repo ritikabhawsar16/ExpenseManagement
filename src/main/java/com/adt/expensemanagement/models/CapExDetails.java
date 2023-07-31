@@ -47,4 +47,6 @@ public class CapExDetails {
 	@Column(name = "mode", nullable = false)
 	private String mode;
 
+	public CapExDetails(Integer id, String date, String expenseDetails, String gstBill, Integer amount, String paidBy, String comment, String mode) {
+	}
 }
