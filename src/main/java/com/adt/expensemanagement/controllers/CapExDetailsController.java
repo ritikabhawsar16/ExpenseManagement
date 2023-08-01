@@ -41,15 +41,15 @@ public class CapExDetailsController {
 	
 	//HRMS-107 -> START
 	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
-	@GetMapping("/")
+	@GetMapping("/getAllCapExDetails")
 	public ResponseEntity<List<CapExDetails>> getAllCapExDetails() {
-		LOGGER.info("Expenseservice:capExDetails:getAllCapExDetails info level log message");
+		LOGGER.info("Expenseservice: capExDetails:getAllCapExDetails info level log message");
 	    List<CapExDetails> capExDetailsList = capExDetailsService.getAllCapExDetails();
 	    return new ResponseEntity<>(capExDetailsList, HttpStatus.OK);
 	}
 
 	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
-	@GetMapping("/{id}")
+	@GetMapping("/getByCapExDetails/{id}")
 	public ResponseEntity<CapExDetails> getCapExDetailsById(@PathVariable int id) {
 		LOGGER.info("Expenseservice:capExDetails:getCapExDetailsById info level log message");
 	    CapExDetails capExDetails = capExDetailsService.getCapExDetailsById(id);
@@ -61,7 +61,7 @@ public class CapExDetailsController {
 	}
 
 	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
-	@PutMapping("/{id}")
+	@PutMapping("/updateCapExDetails/{id}")
 	public ResponseEntity<CapExDetails> updateCapExDetailsById(@PathVariable int id, @RequestBody CapExDetails capExDetails)
 	{
 		LOGGER.info("Expenseservice:capExDetails:updateCapExDetailsById info level log message");
@@ -74,7 +74,7 @@ public class CapExDetailsController {
 	}
 
 	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/deleteCapExDetails/{id}")
 	public ResponseEntity<String> deleteCapExDetailsById(@PathVariable int id) {
 		LOGGER.info("Expenseservice:capExDetails:deleteCapExDetailsById info level log message");
 	    boolean isDeleted = capExDetailsService.deleteCapExDetailsById(id)	;
