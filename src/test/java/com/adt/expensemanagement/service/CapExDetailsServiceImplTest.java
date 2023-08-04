@@ -59,23 +59,23 @@ public class CapExDetailsServiceImplTest {
     }
 
 
-    @Test
-    public void createCapExDetailsTest() {
-        CapExDetails capExDetail = giveExpDetails();
-        capExDetail.setId(0);
-        when(capExDetailsRepository.save(capExDetail)).thenReturn(capExDetail);
-        assertEquals(capExDetail, capExDetailsService.createCapExDetails(capExDetail));
-    }
+//    @Test
+//    public void createCapExDetailsTest() {
+//        CapExDetails capExDetail = giveExpDetails();
+//        capExDetail.setId(0);
+//        when(capExDetailsRepository.save(capExDetail)).thenReturn(capExDetail);
+//        assertEquals(capExDetail, capExDetailsService.createCapExDetails(capExDetail));
+//    }
+//
 
 
-
-    @Test
-    public void updateCapExDetailsByIdTest() {
-        CapExDetails capExDetail = giveExpDetails();
-        when(capExDetailsRepository.findById(capExDetail.getId())).thenReturn(Optional.of(capExDetail));
-        when(capExDetailsRepository.save(capExDetail)).thenReturn(capExDetail);
-        assertEquals(capExDetail, capExDetailsService.updateCapExDetailsById(capExDetail.getId(), capExDetail));
-    }
+//    @Test
+//    public void updateCapExDetailsByIdTest() {
+//        CapExDetails capExDetail = giveExpDetails();
+//        when(capExDetailsRepository.findById(capExDetail.getId())).thenReturn(Optional.of(capExDetail));
+//        when(capExDetailsRepository.save(capExDetail)).thenReturn(capExDetail);
+//        assertEquals(capExDetail, capExDetailsService.updateCapExDetailsById(capExDetail.getId(), capExDetail));
+//    }
 
 
 

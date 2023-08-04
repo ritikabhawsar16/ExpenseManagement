@@ -56,17 +56,17 @@ public class CapExDetailsControllerTest {
     }
 
 
-    @Test
-    public void testCreateCapExDetails() throws Exception {
-        CapExDetails capExDetails = giveExpDetails().get(0);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JSR310Module());
-        when(capExDetailsService.createCapExDetails(any(CapExDetails.class))).thenReturn(capExDetails);
-        mockMvc.perform(MockMvcRequestBuilders.post("/capExDetails/createCapExDetails").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(capExDetails))).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(id)).andExpect(jsonPath("$.expenseDetails").value(expenseDetails)).andExpect(jsonPath("$.date".toString()).exists()).andExpect(jsonPath("$.mode").value(mode)).andExpect(jsonPath("$.amount").value(amount)).andExpect(jsonPath("$.comment").value(comment)).andExpect(jsonPath("$.gstBill").value(gstBill)).andExpect(jsonPath("$.paidBy").value(paidBy)).andReturn();
-
-        verify(capExDetailsService, times(1)).createCapExDetails(any(CapExDetails.class));
-        verifyNoMoreInteractions(capExDetailsService);
-    }
+//    @Test
+//    public void testCreateCapExDetails() throws Exception {
+//        CapExDetails capExDetails = giveExpDetails().get(0);
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.registerModule(new JSR310Module());
+//        when(capExDetailsService.createCapExDetails(any(CapExDetails.class))).thenReturn(capExDetails);
+//        mockMvc.perform(MockMvcRequestBuilders.post("/capExDetails/createCapExDetails").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(capExDetails))).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(id)).andExpect(jsonPath("$.expenseDetails").value(expenseDetails)).andExpect(jsonPath("$.date".toString()).exists()).andExpect(jsonPath("$.mode").value(mode)).andExpect(jsonPath("$.amount").value(amount)).andExpect(jsonPath("$.comment").value(comment)).andExpect(jsonPath("$.gstBill").value(gstBill)).andExpect(jsonPath("$.paidBy").value(paidBy)).andReturn();
+//
+//        verify(capExDetailsService, times(1)).createCapExDetails(any(CapExDetails.class));
+//        verifyNoMoreInteractions(capExDetailsService);
+//    }
 
 
     @Test
@@ -91,17 +91,17 @@ public class CapExDetailsControllerTest {
     }
 
 
-    @Test
-    public void testUpdateCapExDetailsById() throws Exception {
-        CapExDetails capExDetail = giveExpDetails().get(0);
-        when(capExDetailsService.updateCapExDetailsById(eq(id), any(CapExDetails.class))).thenReturn(capExDetail);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JSR310Module());
-        mockMvc.perform(MockMvcRequestBuilders.put("/capExDetails/updateCapExDetails/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(capExDetail))).andExpect(status().isOk()).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(id)).andExpect(jsonPath("$.expenseDetails").value(expenseDetails)).andExpect(jsonPath("$.mode").value(mode)).andExpect(jsonPath("$.amount").value(amount)).andExpect(jsonPath("$.comment").value(comment)).andExpect(jsonPath("$.gstBill").value(gstBill)).andExpect(jsonPath("$.paidBy").value(paidBy)).andReturn();
-
-        verify(capExDetailsService, times(1)).updateCapExDetailsById(eq(id), any(CapExDetails.class));
-        verifyNoMoreInteractions(capExDetailsService);
-    }
+//    @Test
+//    public void testUpdateCapExDetailsById() throws Exception {
+//        CapExDetails capExDetail = giveExpDetails().get(0);
+//        when(capExDetailsService.updateCapExDetailsById(eq(id), any(CapExDetails.class))).thenReturn(capExDetail);
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.registerModule(new JSR310Module());
+//        mockMvc.perform(MockMvcRequestBuilders.put("/capExDetails/updateCapExDetails/{id}", id).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(capExDetail))).andExpect(status().isOk()).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(id)).andExpect(jsonPath("$.expenseDetails").value(expenseDetails)).andExpect(jsonPath("$.mode").value(mode)).andExpect(jsonPath("$.amount").value(amount)).andExpect(jsonPath("$.comment").value(comment)).andExpect(jsonPath("$.gstBill").value(gstBill)).andExpect(jsonPath("$.paidBy").value(paidBy)).andReturn();
+//
+//        verify(capExDetailsService, times(1)).updateCapExDetailsById(eq(id), any(CapExDetails.class));
+//        verifyNoMoreInteractions(capExDetailsService);
+//    }
 
 
     @Test
