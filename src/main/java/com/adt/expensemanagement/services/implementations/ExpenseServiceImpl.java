@@ -127,7 +127,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 		LocalDate currentDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
 		long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 		if (startDate.isAfter(endDate) || currentDate.isBefore(endDate) || daysBetween > 214) {
-			String message = messageSource.getMessage("api.error.date.range", null, Locale.ENGLISH);
+			String message = messageSource.getMessage("api.error.data.not.found", null, Locale.ENGLISH);
 			LOGGER.error(message = message + " fromDate : " + startDate + " To : " + endDate);
 			throw new IllegalArgumentException(message);
 		}
