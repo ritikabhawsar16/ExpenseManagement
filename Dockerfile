@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:jre-11.0.12_7-alpine
+FROM adoptopenjdk/openjdk17:jre-17.0.2_8-alpine
 ARG JAR_FILE=./target/expensemanagement-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} /usr/app/expensemanagement.jar
 WORKDIR /usr/app

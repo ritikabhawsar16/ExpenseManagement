@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,8 @@ import com.adt.expensemanagement.models.ClientInformation;
 import com.adt.expensemanagement.models.ResponseModel;
 import com.adt.expensemanagement.repositories.ClientInformationRepo;
 import com.adt.expensemanagement.services.interfaces.ClientInformationService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ClientInformationServiceImpl implements ClientInformationService {
