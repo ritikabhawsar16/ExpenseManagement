@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
@@ -253,9 +254,9 @@ public class GSTInvoiceController {
     }
 
     private String generateInvoiceNumber() {
-        int randomPart = new Random().nextInt(1000);
+        int randomPart = new SecureRandom().nextInt(1000);
         String invoicePart = String.format("%03d", randomPart);
-        String prefix = "AD" + String.format("%04d", new Random().nextInt(10000));
+        String prefix = "AD" + String.format("%04d", new SecureRandom().nextInt(10000));
         return prefix + "-" + invoicePart;
     }
 
