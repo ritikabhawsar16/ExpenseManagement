@@ -42,17 +42,18 @@ public class GSTInvoiceServiceImpl implements GSTInvoiceService {
         return invoiceRepository.save(invoice);
     }
 
-    public boolean delete(Long id) {
-        if (invoiceRepository.existsById(id)) {
-            invoiceRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    @Override
+    public GSTInvoice findByInvoiceNumber(String invoiceNumber) {
+        return invoiceRepository.findByInvoiceNumber(invoiceNumber);
     }
 
     @Override
-    public List<GSTInvoice> findByInvoiceNumberOrCustomerId(String invoiceNumber, String customerId) {
-        return invoiceRepository.findInvoiceNumberOrCustomerId(invoiceNumber, customerId);
+    public int deleteByInvoiceNumber(String invoiceNumber) {
+        int result = invoiceRepository.deleteByInvoiceNumber(invoiceNumber);
+        if(result !=0)
+            return 1;
+        else
+            return 0;
     }
 
 }
