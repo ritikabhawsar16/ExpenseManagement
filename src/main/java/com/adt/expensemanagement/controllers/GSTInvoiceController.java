@@ -38,28 +38,18 @@ public class GSTInvoiceController {
 
         logger.info("Received request to save GST details: {}", gstInvoice);
 
-        List<GSTInvoice> resultList = gstInvoiceService.findByInvoiceNumberOrCustomerId(gstInvoice.getInvoiceNumber(), gstInvoice.getCustomerId());
+//        List<GSTInvoice> resultList = gstInvoiceService.findByInvoiceNumberOrCustomerId(gstInvoice.getInvoiceNumber(), gstInvoice.getCustomerId());
+        GSTInvoice invoice = gstInvoiceService.findByInvoiceNumber(gstInvoice.getInvoiceNumber());
 
-        if (!resultList.isEmpty()) {
+        if (invoice != null) {
 
-            for (GSTInvoice invoice : resultList) {
-                String invoiceNumber = invoice.getInvoiceNumber();
-                String customerID = invoice.getCustomerId();
-                if (invoiceNumber.equals(gstInvoice.getInvoiceNumber()) && customerID.equals(gstInvoice.getCustomerId())) {
-                    String message = String.format("Invoice number '%s' and Customer ID '%s' already exists ", gstInvoice.getInvoiceNumber(), gstInvoice.getCustomerId());
-                    logger.warn(message);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GST_Constants.DATA_ALREADY_EXIST + " FOR INVOICE NUMBER: " + gstInvoice.getInvoiceNumber() + " AND FOR CUSTOMER ID: " + gstInvoice.getCustomerId());
-                } else if (customerID.equals(gstInvoice.getCustomerId())) {
-                    String message = String.format("Customer ID '%s' already exists ", gstInvoice.getCustomerId());
-                    logger.warn(message);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GST_Constants.DATA_ALREADY_EXIST + " FOR CUSTOMER ID: " + gstInvoice.getCustomerId());
-                } else if (invoiceNumber.equals(gstInvoice.getInvoiceNumber())) {
-                    String message = String.format("Invoice number '%s' already exists ", gstInvoice.getInvoiceNumber());
-                    logger.warn(message);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GST_Constants.DATA_ALREADY_EXIST + " FOR INVOICE NUMBER: " + gstInvoice.getInvoiceNumber());
-                }
+            String invoiceNumber = invoice.getInvoiceNumber();
+//            String customerID = invoice.getCustomerId();
+            if (invoiceNumber.equals(gstInvoice.getInvoiceNumber())) {
+                String message = String.format("Invoice number '%s' already exists ", gstInvoice.getInvoiceNumber());
+                logger.warn(message);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GST_Constants.DATA_ALREADY_EXIST + " FOR INVOICE NUMBER: " + gstInvoice.getInvoiceNumber());
             }
-
         } else {
             gstInvoiceService.save(gstInvoice);
             return ResponseEntity.status(HttpStatus.OK).body(GST_Constants.GST_DATA_SAVED);
@@ -68,10 +58,10 @@ public class GSTInvoiceController {
     }
 
     @PreAuthorize("@auth.allow('ROLE_ADMIN')")
-    @GetMapping("/displayGSTDetailsById/{id}")
-    public GSTInvoice displayGSTById(@PathVariable("id") Long id) {
+    @GetMapping("/displayGSTDetailsByInvoiceNumber/{invoiceNumber}")
+    public GSTInvoice displayGSTByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
 
-        GSTInvoice invoice = gstInvoiceService.findById(id);
+        GSTInvoice invoice = gstInvoiceService.findByInvoiceNumber(invoiceNumber);
         if (invoice != null) {
             return invoice;
         } else {
@@ -93,13 +83,13 @@ public class GSTInvoiceController {
 
 
     @PreAuthorize("@auth.allow('ROLE_ADMIN')")
-    @GetMapping("/generateGSTsheetById/{id}")
-    public ResponseEntity<byte[]> generate_GST_Excel_By_Id(@PathVariable("id") Long id) throws IOException {
-        logger.info("Received request to sgenerate_GST_Excel_By_Id {}", id);
-        GSTInvoice gstInvoice = gstInvoiceService.findById(id);
+    @GetMapping("/generateGSTsheetByInvoiceNumber/{invoiceNumber}")
+    public ResponseEntity<byte[]> generate_GST_Excel_By_InvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) throws IOException {
+        logger.info("Received request to sgenerate_GST_Excel_By_Id {}", invoiceNumber);
+        GSTInvoice gstInvoice = gstInvoiceService.findByInvoiceNumber(invoiceNumber);
 
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Invoices");
+        Sheet sheet = workbook.createSheet("Invoice for " + invoiceNumber);
         Row headerRow = sheet.createRow(0);
         String[] colNames = {"Invoice Number", "FY", "Invoice Date", "GST Period", "Billing Period", "Customer ID", "To", "Taxable Amount", "TDS", "GST @ 18%", "Invoice Amount (INR)", "Receivable", "Amount Received", "Date Received", "Invoice Balance", "Status", "TDS Credited", "TDS Balance"};
         for (int i = 0; i < colNames.length; i++) {
@@ -134,7 +124,7 @@ public class GSTInvoiceController {
             Cell cell = headerRow.createCell(i);
             String headerText = "   " + colNames[i] + "   ";
             cell.setCellValue(headerText);
-            int headerWidth = headerText.length() * 256 + 1000;
+            int headerWidth =  headerText.length() * 256 + 1000;
             sheet.setColumnWidth(i, headerWidth);
         }
 
@@ -156,7 +146,7 @@ public class GSTInvoiceController {
         List<GSTInvoice> gstInvoiceList = gstInvoiceService.findAll();
 
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Invoices");
+        Sheet sheet = workbook.createSheet("Invoice");
 
         Row headerRow = sheet.createRow(0);
         String[] colNames = {"Invoice Number", "FY", "Invoice Date", "GST Period", "Billing Period", "Customer ID", "To", "Taxable Amount", "TDS", "GST @ 18%", "Invoice Amount (INR)", "Receivable", "Amount Received", "Date Received", "Invoice Balance", "Status", "TDS Credited", "TDS Balance"};
@@ -210,12 +200,12 @@ public class GSTInvoiceController {
     }
 
     @PreAuthorize("@auth.allow('ROLE_ADMIN')")
-    @PutMapping("/updateGSTDetailsById/{id}")
-    public HttpEntity<String> updateGSTDetailsById(@PathVariable("id") Long id, @RequestBody GSTInvoice updatedInvoice) {
-        logger.info("Update request for ID '%s' requested " + id);
-        GSTInvoice existingInvoice = gstInvoiceService.findById(id);
+    @PutMapping("/updateGSTDetailsByInvoiceNumber/{invoiceNumber}")
+    public HttpEntity<String> updateGSTDetailsByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber, @RequestBody GSTInvoice updatedInvoice) {
+        logger.info("Update request for InvoiceNumber '%s' requested " + invoiceNumber);
+        GSTInvoice existingInvoice = gstInvoiceService.findByInvoiceNumber(invoiceNumber);
         if (existingInvoice != null) {
-            existingInvoice.setInvoiceNumber(updatedInvoice.getInvoiceNumber());
+
             existingInvoice.setFy(updatedInvoice.getFy());
             existingInvoice.setInvoiceDate(updatedInvoice.getInvoiceDate());
             existingInvoice.setGstPeriod(updatedInvoice.getGstPeriod());
@@ -237,19 +227,19 @@ public class GSTInvoiceController {
             GSTInvoice updated = gstInvoiceService.update(existingInvoice);
             return ResponseEntity.ok(GST_Constants.GST_DATA_UPDATED);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GST_Constants.INVOICE_NOT_FOUND + " " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GST_Constants.INVOICE_NOT_FOUND + " " + invoiceNumber);
         }
     }
 
     @PreAuthorize("@auth.allow('ROLE_ADMIN')")
-    @DeleteMapping("/deleteGSTInvoiceById/{id}")
-    public ResponseEntity<String> deleteGSTInvoiceById(@PathVariable("id") Long id) {
-        logger.info("Delete GST details requested for ID {} ", id);
-        boolean deleted = gstInvoiceService.delete(id);
-        if (deleted) {
+    @DeleteMapping("/deleteGSTInvoiceByInvoiceNumber/{invoiceNumber}")
+    public ResponseEntity<String> deleteGSTInvoiceByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
+        logger.info("Delete GST details requested for Invoice Number {} ", invoiceNumber);
+        int deleted = gstInvoiceService.deleteByInvoiceNumber(invoiceNumber);
+        if (deleted !=0) {
             return ResponseEntity.status(HttpStatus.OK).body(GST_Constants.GST_DATA_DELETED);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GST_Constants.INVOICE_NOT_FOUND + " " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GST_Constants.INVOICE_NOT_FOUND + " " + invoiceNumber);
         }
     }
 

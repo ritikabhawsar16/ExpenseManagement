@@ -18,8 +18,8 @@ public interface GSTInvoiceService {
 
     public GSTInvoice update(GSTInvoice invoice);
 
-    public boolean delete(Long id);
+    GSTInvoice findByInvoiceNumber(String invoiceNumber);
 
-    List<GSTInvoice> findByInvoiceNumberOrCustomerId(String invoiceNumber, String customerId);
+    int deleteByInvoiceNumber(String invoiceNumber);
 }
 
