@@ -33,7 +33,8 @@ public class ExpenseController {
 
 	@Autowired
 	private ExpenseService expenseService;
-
+	
+	@PreAuthorize("@auth.allow('GET_ALL_EXPENSES')")
 	@GetMapping("/getAllExpenses")
 	public ResponseEntity<List<ExpenseItems>> getAllExpenses(HttpServletRequest request) {
 		LOGGER.info("API Call From IP: " + request.getRemoteHost());
@@ -41,7 +42,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenses, HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('CREATE_EXPENSES')")
 	@PostMapping("/createExpenses")
 	public ResponseEntity<ExpenseItems> createExpenses(@RequestBody @Valid ExpenseItems expenseItems,
 			HttpServletRequest request) {
@@ -50,7 +51,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenses, HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('UPDATE_EXPENSE')")
 	@PutMapping("/updateExpense/{id}")
 	public ResponseEntity<String> updateExpense(@PathVariable("id") int id, @RequestBody ExpenseItems expenseItems,
 			HttpServletRequest request) {
@@ -58,7 +59,8 @@ public class ExpenseController {
 		return new ResponseEntity<>(this.expenseService.updateExpense(id, expenseItems), HttpStatus.OK);
 	}
 
-//	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	
+	@PreAuthorize("@auth.allow('GET_EXPENSE_BY_ID')")
 	@GetMapping("/getExpenseById/{id}")
 	public ResponseEntity<ExpenseItems> getExpenseById(@PathVariable("id") int id, HttpServletRequest request)
 			throws NoSuchFieldException {
@@ -66,7 +68,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.getExpenseById(id), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('SAVE_OUTBOUND_EXPENSE')")
 	@PostMapping("/saveOutboundExpense")
 	public ResponseEntity<String> saveOutboundExpense(@RequestBody ExpenseOutbound expenseOutbound,
 			HttpServletRequest request) {
@@ -74,7 +76,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.saveOutboundExpense(expenseOutbound), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('UPDATE_OUTBOUND_EXPENSE')")
 	@PutMapping("updateOutboundExpense")
 	public ResponseEntity<String> updateOutboundExpense(@RequestBody ExpenseOutbound expenseOutbound,
 			HttpServletRequest request) {
@@ -82,7 +84,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.updateOutboundExpense(expenseOutbound), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('GET_EXPENSE_BY_DATE_RANGE')")
 	@GetMapping("/getExpenseByDateRange")
 	public ResponseEntity<List<ExpenseItems>> getExpenseByDateRange(@RequestParam("startDate") String from,
 			@RequestParam("endDate") String to, HttpServletRequest request)
@@ -91,7 +93,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.getExpenseByDateRange(from, to), HttpStatus.OK);
 	}
 
-//	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('DELETE_EXPENSE_BY_ID')")
 	@DeleteMapping("/deleteExpenseById")
 	public ResponseEntity<String> deleteExpenseByIds(@RequestBody List<Integer> ids, HttpServletRequest request)
 			throws NoSuchFieldException {
