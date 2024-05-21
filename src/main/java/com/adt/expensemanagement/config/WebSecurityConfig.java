@@ -7,12 +7,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableMethodSecurity
+
+
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig  {
+public class WebSecurityConfig {
 
 	private String allowUrlPattern = "/expenseManagement/**";
 
@@ -22,7 +22,5 @@ public class WebSecurityConfig  {
 		http.authorizeRequests().requestMatchers(allowUrlPattern,"/swagger-ui.html").permitAll();
 		return http.build();
 	}
-	
-	 
 
 }
