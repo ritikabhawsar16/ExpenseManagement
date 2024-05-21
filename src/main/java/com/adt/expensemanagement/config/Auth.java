@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.adt.expensemanagement.util.TableDataExtractor;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwt;
@@ -22,24 +24,49 @@ public class Auth {
 
 	@Autowired
 	private HttpServletRequest request;
+	
+	@Autowired
+	private TableDataExtractor dataExtractor;
 
-	public boolean allow(String authority, Map<String, String> resourceAttributes) {
+	public boolean allow( String apiName, Map<String, String> resourceAttributes) {
 		String token = getToken(request);
 		Claims claims = getUserIdFromJWT(token);
-		List<GrantedAuthority> authorities = getAuthorities(claims);
+		List<GrantedAuthority> authorities = getAuthorities(claims);	
+		boolean isValidAuthority = false;
+		String authority=null;
+		String sql = "SELECT r.role_name FROM user_schema.role r JOIN av_schema.api_mapping  am ON r.role_id = am.role_id JOIN av_schema.api_details ad ON am.api_id = ad.api_id WHERE ad.api_name ="
+				+ "'" + apiName + "'";
+		List<Map<String, Object>> priortimeData = dataExtractor.extractDataFromTable(sql);
+		for (Map<String, Object> priortime : priortimeData) {
+			authority = String.valueOf(priortime.get("role_name"));
+			isValidAuthority = checkAuthority(authority, authorities);
+			if (isValidAuthority) {
+				break;
+			}
+		}
 		boolean isValidResourse = checkResourse(resourceAttributes, claims);
-		boolean isValidAuthority = checkAuthority(authority, authorities);
 		return isValidResourse && isValidAuthority;
 	}
 
-	public boolean allow(String authority) {
+	public boolean allow(String apiName) {
 		String token = getToken(request);
+		String authority=null;
 		Claims claims = getUserIdFromJWT(token);
 		List<GrantedAuthority> authorities = getAuthorities(claims);
-		boolean isValidAuthority = checkAuthority(authority, authorities);
+		boolean isValidAuthority = false;
+		String sql = "SELECT r.role_name FROM user_schema.role r JOIN av_schema.api_mapping  am ON r.role_id = am.role_id JOIN av_schema.api_details ad ON am.api_id = ad.api_id WHERE ad.api_name ="+"'"+apiName+"'";
+		List<Map<String, Object>> priortimeData = dataExtractor.extractDataFromTable(sql);
+		for (Map<String, Object> priortime : priortimeData) {
+	    	 authority = String.valueOf(priortime.get("role_name"));
+	    	 isValidAuthority = checkAuthority(authority, authorities);
+	    	 if (isValidAuthority) {
+					break;
+				}
+		}
+		
+		
 		return isValidAuthority;
 	}
-
 	private boolean checkResourse(Map<String, String> resourceAttributes, Claims claims) {
 		boolean isValidResourse = true;
 		String employeeId = String.valueOf(claims.get("id"));
