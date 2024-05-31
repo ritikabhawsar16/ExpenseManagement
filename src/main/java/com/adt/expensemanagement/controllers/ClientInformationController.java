@@ -68,8 +68,7 @@ public class ClientInformationController {
 
 		return ResponseEntity.ok(clientInfo);
 	}
-	
-	//--------------- ** Jira No. HRMS-84 START **---------------------
+
 
 	@PreAuthorize("@auth.allow('SEARCH_CLIENT_BY_COMPANY_NAME')")
 	@GetMapping("/searchByCompany")
@@ -84,10 +83,7 @@ public class ClientInformationController {
 		LOGGER.info("Expense Management: getClientByemail : getClientByemail Info level log message");
 		return ResponseEntity.ok(informationService.SearchByEmail(email));
 	}
-	
-	//--------------------- ** Jira No. HRMS-84 END **--------------------
 
+}
 
-	}
-	
 
