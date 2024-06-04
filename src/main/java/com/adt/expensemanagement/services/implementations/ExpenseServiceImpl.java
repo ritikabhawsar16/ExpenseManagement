@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import com.adt.expensemanagement.util.ExpenseUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,30 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public ExpenseItems createExpenses(ExpenseItems expenseItems) {
+		if(!ExpenseUtility.validateAmountAndId(expenseItems.getId())){
+			throw new IllegalArgumentException("Invalid ID");
+		}
+		if(!ExpenseUtility.validateAmountAndId(expenseItems.getAmount())){
+			throw new IllegalArgumentException("Invalid Amount Details");
+		}
+		if(!ExpenseUtility.validateDescription(expenseItems.getDescription())){
+			throw new IllegalArgumentException("Invalid Descriptions Details");
+		}
+		if(!ExpenseUtility.validateExpenses(expenseItems.getPaymentMode())){
+			throw new IllegalArgumentException("Invalid Payment Details");
+		}
+		if(!ExpenseUtility.validateExpenses(expenseItems.getCreatedBy())){
+			throw new IllegalArgumentException("Invalid CreatedBy  Details");
+		}
+		if(!ExpenseUtility.validateExpenses(expenseItems.getCategory())){
+			throw new IllegalArgumentException("Invalid Category Details");
+		}
+		if(!ExpenseUtility.validateExpenses(expenseItems.getPaidBy())){
+			throw new IllegalArgumentException("Invalid Paid Details");
+		}
+		if(!ExpenseUtility.validateExpenses(expenseItems.getComments())){
+			throw new IllegalArgumentException("Invalid Output");
+		}
 
 		return expenseRepository.save(expenseItems);
 	}
