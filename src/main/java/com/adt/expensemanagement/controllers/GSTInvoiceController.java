@@ -32,7 +32,7 @@ public class GSTInvoiceController {
     @Autowired
     private GSTInvoiceService gstInvoiceService;
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('SAVE_GST_DETAILS')")
     @PostMapping("/saveGSTDetails")
     public ResponseEntity<String> saveGSTDetails(@RequestBody GSTInvoice gstInvoice) {
 
@@ -57,7 +57,7 @@ public class GSTInvoiceController {
         return null;
     }
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('GET_GST_DETAILS_BY_INVOICE_NUMBER')")
     @GetMapping("/displayGSTDetailsByInvoiceNumber/{invoiceNumber}")
     public GSTInvoice displayGSTByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
 
@@ -69,7 +69,7 @@ public class GSTInvoiceController {
         }
     }
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('GET_ALL_GST_DETAILS')")
     @GetMapping("/displayAllGSTDetails")
     public ResponseEntity<Page> displayAllGSTDetails(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -82,7 +82,7 @@ public class GSTInvoiceController {
     }
 
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('GENERATE_GST_EXCEL_BY_INVOICE_NUMBER')")
     @GetMapping("/generateGSTsheetByInvoiceNumber/{invoiceNumber}")
     public ResponseEntity<byte[]> generate_GST_Excel_By_InvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) throws IOException {
         logger.info("Received request to sgenerate_GST_Excel_By_Id {}", invoiceNumber);
@@ -99,6 +99,8 @@ public class GSTInvoiceController {
 
         int rowNum = 2;
         Row row = null;
+
+
 
         Row dataRow = sheet.createRow(rowNum);
         dataRow.createCell(0).setCellValue(gstInvoice.getInvoiceNumber());
@@ -138,7 +140,7 @@ public class GSTInvoiceController {
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('GENERATE_ECXEL_FOR_ALL_GST_DETAILS')")
     @GetMapping("/generateExcelForAllGSTDetails")
     public ResponseEntity<byte[]> generate_All_GST_Details_Excel() throws IOException {
 
@@ -199,7 +201,7 @@ public class GSTInvoiceController {
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('UPDATE_GST_DETAILS_BY_INVOICE_NUMBER')")
     @PutMapping("/updateGSTDetailsByInvoiceNumber/{invoiceNumber}")
     public HttpEntity<String> updateGSTDetailsByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber, @RequestBody GSTInvoice updatedInvoice) {
         logger.info("Update request for InvoiceNumber '%s' requested " + invoiceNumber);
@@ -231,7 +233,7 @@ public class GSTInvoiceController {
         }
     }
 
-    @PreAuthorize("@auth.allow('ROLE_ADMIN')")
+    @PreAuthorize("@auth.allow('DELETE_GST_INVOICE_BY_INVOICE_NUMBER')")
     @DeleteMapping("/deleteGSTInvoiceByInvoiceNumber/{invoiceNumber}")
     public ResponseEntity<String> deleteGSTInvoiceByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
         logger.info("Delete GST details requested for Invoice Number {} ", invoiceNumber);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.adt.expensemanagement.util.CapExDetailsUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +18,28 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
 	@Autowired
 	private CapExDetailsRepository capExDetailsRepository;
 
-	//HRMS-114 -> START
 	@Override
 	public CapExDetails createCapExDetails(MultipartFile invoice,CapExDetails capExDetails) {
             try {
+
+                if(!CapExDetailsUtility.validateAmount(capExDetails.getAmount())){
+                    throw new IllegalArgumentException("Invalid  Amount Details");
+                }
+                if(!CapExDetailsUtility.validateCapEx(capExDetails.getPaidBy())){
+                    throw new IllegalArgumentException("Invalid Paid Details");
+                }
+                if(!CapExDetailsUtility.validateCapEx(capExDetails.getMode())){
+                    throw new IllegalArgumentException("Invalid Mode Details");
+                }
+                if(!CapExDetailsUtility.validateCapEx(capExDetails.getComment())){
+                    throw new IllegalArgumentException("Invalid Comment");
+                }
+                if(!CapExDetailsUtility.validateGST(capExDetails.getGstBill())){
+                    throw new IllegalArgumentException("Invalid Bill Details");
+                }
+                if(!CapExDetailsUtility.validateExpense(capExDetails.getExpenseDetails())){
+                    throw new IllegalArgumentException("Invalid Expense Details");
+                }
             	capExDetails.setInvoice(invoice.getBytes());
             	return capExDetailsRepository.save(capExDetails);
             } catch (IOException e) {
@@ -28,8 +47,7 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
                 return null;
             }
 	}
-	//HRMS-114 -> END
-	//HRMS-107 -> START
+
 	@Override
     public List<CapExDetails> getAllCapExDetails() {
         return capExDetailsRepository.findAll();
@@ -38,8 +56,7 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
     public CapExDetails getCapExDetailsById(int id) {
         return capExDetailsRepository.findById(id).orElse(null);
     }
-  
-  //HRMS-114 -> START
+
   @Override
   public String  updateCapExDetailsById(MultipartFile invoice, CapExDetails capExDetails) {
 	  int id = capExDetails.getId();
@@ -64,17 +81,15 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
           return "Update Operation Faild";
       }
   }
-//HRMS-114 -> END
 
   @Override
     public boolean deleteCapExDetailsById(int id) {
         Optional<CapExDetails> capExDetailsOptional = capExDetailsRepository.findById(id)    ;
         if (capExDetailsOptional.isPresent()) {
-            capExDetailsRepository.deleteById(id)    ;
+            capExDetailsRepository.deleteById(id);
             return true;
         }
         return false;
     }
-	//HRMS-107 -> END
 
 }

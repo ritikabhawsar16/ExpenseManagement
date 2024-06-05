@@ -32,7 +32,7 @@ public class ClientInformationController {
 	@Autowired
 	private ClientInformationService informationService;
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('SAVE_CLIENT_INFO')")
 	@PostMapping("/saveClientInfo")
 	public ResponseEntity<ResponseModel> saveClientInfo(@RequestBody ClientInformation clientInfo) {
 		LOGGER.info("Expense Management: clientInfo : saveClientInfo Info level log message");
@@ -41,7 +41,7 @@ public class ClientInformationController {
 		return new ResponseEntity<>(model, HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('GET_ALL_CLIENT_INFO')")
 	@GetMapping("/getAllClientInfo")
 	public ResponseEntity<List<ClientInformation>> getAllClientInfo() {
 		LOGGER.info("Expense Management: getAllClientInfo : getAllClientInfo Info level log message");
@@ -50,7 +50,7 @@ public class ClientInformationController {
 		return new ResponseEntity<>(information, HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('UPDATE_CLIENT_INFO')")
 	@PutMapping("/updateClientInfo/{id}")
 	public ResponseEntity<String> updateClientInfo(@PathVariable("id") int id,
 			@RequestBody ClientInformation clientInformation, HttpServletRequest request) {
@@ -58,7 +58,7 @@ public class ClientInformationController {
 		return new ResponseEntity<>(informationService.updateClientInfo(id, clientInformation), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('GET_CLIENT_INFO_BY_ID')")
 	@GetMapping("/getClientInfoById/{clientId}")
 	public ResponseEntity<ClientInformation> getClientInformationById(@PathVariable("clientId") int clientId) {
 		LOGGER.info("Expense Management: ClientInformationController: getClientInformationById info level log message");
@@ -68,26 +68,22 @@ public class ClientInformationController {
 
 		return ResponseEntity.ok(clientInfo);
 	}
-	
-	//--------------- ** Jira No. HRMS-84 START **---------------------
 
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+
+	@PreAuthorize("@auth.allow('SEARCH_CLIENT_BY_COMPANY_NAME')")
 	@GetMapping("/searchByCompany")
 	public ResponseEntity<List<ClientInformation>> SearchByCompany(@RequestParam("query") String companyName) {
 		LOGGER.info("Expense Management: getClientBycompanyName : getClientBycompanyName Info level log message");
 		return ResponseEntity.ok(informationService.SearchByCompany(companyName));
 	}
 	
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('SEARCH_CLIENT_BY_EMAIL')")
 	@GetMapping("/searchByEmail")
 	public ResponseEntity<List<ClientInformation>> SearchByEmail(@RequestParam("query") String email) {
 		LOGGER.info("Expense Management: getClientByemail : getClientByemail Info level log message");
 		return ResponseEntity.ok(informationService.SearchByEmail(email));
 	}
-	
-	//--------------------- ** Jira No. HRMS-84 END **--------------------
 
+}
 
-	}
-	
 

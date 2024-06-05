@@ -35,8 +35,7 @@ public class CapExDetailsController {
 	@Autowired
 	private CapExDetailsService capExDetailsService;
 
-	//HRMS-114 -> START
-		@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+		@PreAuthorize("@auth.allow('CREATE_CAPITAL_EXPENSE_DETAILS')")
 		@PostMapping("/createCapExDetails")
 		public ResponseEntity<String> createCapExDetails(@RequestPart("invoice") MultipartFile invoice,@RequestPart String body,
 				HttpServletRequest request) throws JsonMappingException, JsonProcessingException {
@@ -51,9 +50,8 @@ public class CapExDetailsController {
 		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		    }
 		}
-		//HRMS-114 -> END
-	//HRMS-107 -> START
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+
+	@PreAuthorize("@auth.allow('GET_ALL_CAPITAL_EXPENSE_DETAILS')")
 	@GetMapping("/getAllCapExDetails")
 	public ResponseEntity<List<CapExDetails>> getAllCapExDetails() {
 		LOGGER.info("Expenseservice: capExDetails:getAllCapExDetails info level log message");
@@ -61,7 +59,7 @@ public class CapExDetailsController {
 	    return new ResponseEntity<>(capExDetailsList, HttpStatus.OK);
 	}
   
-	@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+	@PreAuthorize("@auth.allow('GET_CAPITAL_EXPENSE_DETAILS_BY_ID')")
 	@GetMapping("/getByCapExDetails/{id}")
 	public ResponseEntity<CapExDetails> getCapExDetailsById(@PathVariable int id) {
 		LOGGER.info("Expenseservice:capExDetails:getCapExDetailsById info level log message");
@@ -73,8 +71,8 @@ public class CapExDetailsController {
 	    }
 	}
 
-	//HRMS-114 -> START
-		@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+
+		@PreAuthorize("@auth.allow('UPDATE_CAPITAL_EXPENSE_DETAILS_BY_ID')")
 		@PutMapping(value = "/UpdateCapExDetails")
 		public ResponseEntity<String> updateCapExDetails(@RequestPart("invoice") MultipartFile invoice , @RequestPart String details) throws JsonMappingException, JsonProcessingException {	
 			LOGGER.info("Expenseservice:capExDetails:updateCapExDetailsById info level log message");
@@ -87,9 +85,8 @@ public class CapExDetailsController {
 		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		    }
 		}
-		//HRMS-114 -> END
 
-		@PreAuthorize("@auth.allow('ROLE_ADMIN')")
+		@PreAuthorize("@auth.allow('DELETE_CAPITAL_EXPENSE_DETAILS_BY_ID')")
 		@DeleteMapping("/{id}")
 		public ResponseEntity<String> deleteCapExDetailsById(@PathVariable int id) {
 			LOGGER.info("Expenseservice:capExDetails:deleteCapExDetailsById info level log message");
@@ -102,5 +99,4 @@ public class CapExDetailsController {
 		        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
 		    }
 		}
-		//HRMS-107 -> END
 }
