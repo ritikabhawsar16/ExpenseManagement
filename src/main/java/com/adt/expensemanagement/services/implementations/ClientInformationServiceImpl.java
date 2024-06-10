@@ -32,7 +32,7 @@ public class ClientInformationServiceImpl implements ClientInformationService {
 
 	@Override
 	public ResponseModel saveClientInfo(ClientInformation clientInfo) {
-		if(!CapExDetailsUtility.validateGST(clientInfo.getCompanyName())){
+		if(!CapExDetailsUtility.validateCompany(clientInfo.getCompanyName())){
 			throw new IllegalArgumentException("Invalid Company Name");
 		}
 		if(!CapExDetailsUtility.validateGST(clientInfo.getGstin())){

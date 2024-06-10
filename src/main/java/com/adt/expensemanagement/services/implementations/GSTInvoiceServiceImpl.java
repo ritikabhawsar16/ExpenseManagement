@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,9 @@ public class GSTInvoiceServiceImpl implements GSTInvoiceService {
 
     @Override
     public void save(GSTInvoice gstInvoice) {
-if(!GSTInvoiceUtility.checkValidate(gstInvoice.getInvoiceNumber())){
-    throw new IllegalArgumentException("Invalid GST Number");
-}
+        if(!GSTInvoiceUtility.checkValidate(gstInvoice.getInvoiceNumber())){
+            throw new IllegalArgumentException("Invalid GST Number");
+        }
         if(!GSTInvoiceUtility.validatePeriod(gstInvoice.getFy())){
             throw new IllegalArgumentException("Invalid Details");
         }
@@ -41,31 +42,40 @@ if(!GSTInvoiceUtility.checkValidate(gstInvoice.getInvoiceNumber())){
         if(!GSTInvoiceUtility.validateString(gstInvoice.getStatus())){
             throw new IllegalArgumentException("Invalid Status format");
         }
-      if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getTaxableAmount())){
-    throw new IllegalArgumentException("Invalid Tax Amount");
-}
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getTds())){
-    throw new IllegalArgumentException("Invalid TDS amount");
+        BigDecimal taxableAmount = new BigDecimal(String.valueOf(gstInvoice.getTaxableAmount())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(taxableAmount)){
+           throw new IllegalArgumentException("Invalid Tax Amount");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getGst())){
-    throw new IllegalArgumentException("Invalid GST Amount");
-}
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getInvoiceAmount())){
+        BigDecimal tds = new BigDecimal(String.valueOf(gstInvoice.getTds())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(tds)){
+            throw new IllegalArgumentException("Invalid TDS amount");
+        }
+        BigDecimal gst = new BigDecimal(String.valueOf(gstInvoice.getGst())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(gst)){
+            throw new IllegalArgumentException("Invalid GST Amount");
+        }
+        BigDecimal invoiceAmount = new BigDecimal(String.valueOf(gstInvoice.getInvoiceAmount())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(invoiceAmount)){
             throw new IllegalArgumentException("Invalid Invoice Amount");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getReceivable())){
-            throw new IllegalArgumentException("Invalid Recievable Amount");
+        BigDecimal receivable = new BigDecimal(String.valueOf(gstInvoice.getReceivable())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(receivable)){
+            throw new IllegalArgumentException("Invalid Receivable Amount");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getAmountReceived())){
+        BigDecimal amountReceived = new BigDecimal(String.valueOf(gstInvoice.getAmountReceived())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(amountReceived)){
             throw new IllegalArgumentException("Invalid Amount");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getInvoiceBalance())){
+        BigDecimal invoiceBalance = new BigDecimal(String.valueOf(gstInvoice.getInvoiceBalance())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(invoiceBalance)){
             throw new IllegalArgumentException("Invalid Invoice");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getTdsCredited())){
+        BigDecimal tdsCredited = new BigDecimal(String.valueOf(gstInvoice.getTdsCredited())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(tdsCredited)){
             throw new IllegalArgumentException("Invalid TDS Credit Details");
         }
-        if(GSTInvoiceUtility.validateBigdecimal(gstInvoice.getTdsBalance())){
+        BigDecimal tdsBalance = new BigDecimal(String.valueOf(gstInvoice.getTdsBalance())).setScale(2);
+        if(GSTInvoiceUtility.validateBigDecimal(tdsBalance)){
             throw new IllegalArgumentException("Invalid TDS Balance");
         }
 
