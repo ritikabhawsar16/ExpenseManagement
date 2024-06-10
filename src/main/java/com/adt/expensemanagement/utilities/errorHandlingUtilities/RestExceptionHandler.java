@@ -29,6 +29,7 @@ import com.adt.expensemanagement.utilities.errorResponseUtilities.ApiError;
 import com.adt.expensemanagement.utilities.errorResponseUtilities.ErrorResponse;
 import com.adt.expensemanagement.utilities.errorResponseUtilities.FieldErrors;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -66,16 +67,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
-        String message = ex.getMessage();
-        ApiError errors = new ApiError(HttpStatus.FORBIDDEN, message, ex);
-        ErrorResponse errorResponse = new ErrorResponse(errors.getStatus().value(), errors.getMessage(),
-                errors.getTimestamp());
-        return new ResponseEntity<>(errorResponse, errors.getStatus());
-    }
-
-    @ExceptionHandler({ NoSuchFieldException.class })
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+		String message = ex.getMessage();
+		ApiError errors = new ApiError(HttpStatus.FORBIDDEN, message, ex);
+		ErrorResponse errorResponse = new ErrorResponse(errors.getStatus().value(), errors.getMessage(),
+				errors.getTimestamp());
+		return new ResponseEntity<>(errorResponse, errors.getStatus());
+	}
+   
+	@ExceptionHandler({ NoSuchFieldException.class })
     public ResponseEntity<?> handleNoSuchFieldException(NoSuchFieldException ex) {
         String error = ex.getLocalizedMessage();
         ApiError errors = new ApiError(HttpStatus.NOT_FOUND,error, ex);
@@ -134,4 +135,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(errors.getStatus().value(), errors.getMessage(), errors.getTimestamp());
         return new ResponseEntity<>(errorResponse, errors.getStatus());
     }
+    
+    @ExceptionHandler(ExpiredJwtException.class)
+	public ResponseEntity<Object> handleAccessDeniedException(ExpiredJwtException ex) {
+		String message = ex.getMessage();
+		ApiError errors = new ApiError(HttpStatus.UNAUTHORIZED, message, ex);
+		ErrorResponse errorResponse = new ErrorResponse(errors.getStatus().value(), "Your session has expired. Please log in again.",
+				errors.getTimestamp());
+		return new ResponseEntity<>(errorResponse, errors.getStatus());
+	}
 }
