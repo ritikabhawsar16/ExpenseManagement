@@ -93,11 +93,20 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.getExpenseByDateRange(from, to), HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('DELETE_EXPENSE_BY_ID')")
-	@DeleteMapping("/deleteExpenseById")
-	public ResponseEntity<String> deleteExpenseByIds(@RequestBody List<Integer> ids, HttpServletRequest request)
+	@PreAuthorize("@auth.allow('DELETE_ALL_EXPENSE_BY_ID')")
+	@DeleteMapping("/deleteAllExpenseById")
+	public ResponseEntity<String> deleteAllExpenseByIds(@RequestBody List<Integer> ids, HttpServletRequest request)
 			throws NoSuchFieldException {
 		LOGGER.info("API Call From IP: " + request.getRemoteHost());
-		return new ResponseEntity<>(expenseService.deleteExpenseById(ids), HttpStatus.OK);
-}
+		return new ResponseEntity<>(expenseService.deleteAllExpenseByIds(ids), HttpStatus.OK);
+	}
+
+	@PreAuthorize("@auth.allow('DELETE_EXPENSE_BY_ID')")
+	@DeleteMapping("/deleteExpenseById/{id}")
+	public ResponseEntity<String> deleteExpenseById(@PathVariable("id") int id, HttpServletRequest request)
+			throws NoSuchFieldException {
+		LOGGER.info("API Call From IP: " + request.getRemoteHost());
+		return new ResponseEntity<>(expenseService.deleteExpenseById(id), HttpStatus.OK);
+	}
+
 	}
