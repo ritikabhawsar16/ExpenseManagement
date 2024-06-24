@@ -8,18 +8,17 @@ import java.util.List;
 
 public interface GSTInvoiceService {
 
-    void save(GSTInvoice gstInvoice);
+	String saveGSTDetails(GSTInvoice gstInvoice);
 
-    GSTInvoice findById(Long id);
+	GSTInvoice findById(Long id);
 
-    List<GSTInvoice> findAll();
+	List<GSTInvoice> findAll();
 
-    Page<GSTInvoice> findAll(Pageable pageable);
+	Page<GSTInvoice> findAll(Pageable pageable);
 
-    public GSTInvoice update(GSTInvoice invoice);
+	public String updateGSTDetailsByInvoiceNumber(GSTInvoice invoice);
 
-    GSTInvoice findByInvoiceNumber(String invoiceNumber);
+	GSTInvoice findByInvoiceNumber(String invoiceNumber);
 
-    int deleteByInvoiceNumber(String invoiceNumber);
+	int deleteByInvoiceNumber(String invoiceNumber);
 }
-
