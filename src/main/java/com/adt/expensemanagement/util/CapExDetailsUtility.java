@@ -9,7 +9,7 @@ public class CapExDetailsUtility {
     }
 
     public static boolean validateCapEx(String str){
-        if(str=="" || str==null || str.matches(".*\\d.*")){
+        if(str=="" || str==null || str.matches("[a-zA-Z0-9\\s!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?`~]+\n")){
             return false;
         }
         return true;
@@ -22,6 +22,12 @@ public class CapExDetailsUtility {
     }
     public static boolean validateGST(String str){
         if(str=="" || str==null || str.matches(".*\\W.*")){
+            return false;
+        }
+        return true;
+    }
+    public static boolean validateCompany(String str){
+        if(str=="" || str==null || str.matches("[a-zA-Z0-9\\s!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?`~]+\n")){
             return false;
         }
         return true;

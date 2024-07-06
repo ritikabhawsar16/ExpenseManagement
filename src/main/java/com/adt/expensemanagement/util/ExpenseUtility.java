@@ -13,7 +13,7 @@ public class ExpenseUtility {
     }
 
     public static boolean validateExpenses(String str) {
-        if (str == null || str == "" || str.matches(".*\\d.*")|| str.contains(".") ||str.matches(".*\\W.*")) {
+        if (str == null || str == "" || str.matches(".*\\d.*")|| str.contains(".") ||str.matches("[a-zA-Z0-9\\s!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?`~]+\n")) {
             return false;
         }
         return true;

@@ -17,14 +17,7 @@ public class GSTInvoiceUtility {
         return true;
     }
     public static boolean validateString(String str){
-        if(str=="" || str==null || str.matches(".*\\d.*")){
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateBigdecimal(BigDecimal var){
-        if (var == null || var.scale() >1 || var.precision() > 7) {
+        if(str.matches(".*\\d.*")){
             return false;
         }
         return true;
@@ -35,6 +28,13 @@ public class GSTInvoiceUtility {
             return false;
         }
         return  true;
+    }
+
+    public static boolean validateBigDecimal(BigDecimal var){
+        if(var.scale() >1 || var.precision() > 7) {
+            return false;
+        }
+        return true;
     }
     public static boolean validatePhoneNo(Long no){
         String mobile=String.valueOf(no);
