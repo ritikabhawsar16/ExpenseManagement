@@ -162,9 +162,19 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public String deleteExpenseById(List<Integer> ids) {
+	public String deleteAllExpenseByIds(List<Integer> ids) {
 		expenseRepository.deleteAllById(ids);
 		return "Data Deleted Successfully";
+	}
+
+	@Override
+	public String deleteExpenseById(int id) {
+		Optional<ExpenseItems> expenseData = expenseRepository.findById(id);
+		if (expenseData.isPresent()) {
+			expenseRepository.deleteById(id);
+			return "Data Deleted Successfully";
+		}
+		return "No data found for selected id";
 	}
 
 }

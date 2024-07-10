@@ -24,6 +24,7 @@ public interface ExpenseService {
 
     public List<ExpenseItems> getExpenseByDateRange(String from, String to) throws ParseException;
 
-	public String deleteExpenseById(List<Integer> ids);
+	public String deleteAllExpenseByIds(List<Integer> ids);
+    public String deleteExpenseById(int id);
     
 }
