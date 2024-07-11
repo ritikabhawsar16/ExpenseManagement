@@ -1,6 +1,7 @@
 package com.adt.expensemanagement.services.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public interface CapExDetailsService  {
 	    //HRMS-114 -> END
 		
 	    //HRMS-107 -> START
-	  	List<CapExDetails> getAllCapExDetails();
+	  	List<Map<String, Object>> getAllCapExDetails();
 	    CapExDetails getCapExDetailsById(int id);
 
 	    //HRMS-114 -> START

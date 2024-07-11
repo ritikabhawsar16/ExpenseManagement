@@ -20,9 +20,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "cap_ex_details", catalog = "EmployeeDB", schema = "expense_schema")
 public class CapExDetails {
@@ -34,7 +31,7 @@ public class CapExDetails {
 
 	
 	@JsonDeserialize(using = LocalDateDeserializer.class)
-    	@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
 	@Column(name = "date", nullable = false)
 	private LocalDate date;
 
