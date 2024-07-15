@@ -29,9 +29,8 @@ public class CapExDetails {
 	@Column(columnDefinition = "serial")
 	private int id;
 
-	
 	@JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	@Column(name = "date", nullable = false)
 	private LocalDate date;
 
@@ -52,10 +51,8 @@ public class CapExDetails {
 
 	@Column(name = "mode", nullable = false)
 	private String mode;
-	
-	//HRMS-114 -> START
+
 	@Lob
-	@Column(name = "invoice" )
+	@Column(name = "invoice")
 	private byte[] invoice;
-	//HRMS-114 -> END
 }
