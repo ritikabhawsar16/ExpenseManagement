@@ -1,12 +1,19 @@
 package com.adt.expensemanagement.services.implementations;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.adt.expensemanagement.util.CapExDetailsUtility;
+import com.adt.expensemanagement.util.TableDataExtractor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.adt.expensemanagement.models.CapExDetails;
@@ -17,6 +24,9 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
 	
 	@Autowired
 	private CapExDetailsRepository capExDetailsRepository;
+	
+	@Autowired
+	private TableDataExtractor dataExtractor;
 
 	@Override
 	public CapExDetails createCapExDetails(MultipartFile invoice,CapExDetails capExDetails) {
@@ -49,8 +59,15 @@ public class CapExDetailsServiceImpl implements CapExDetailsService {
 	}
 
 	@Override
-    public List<CapExDetails> getAllCapExDetails() {
-        return capExDetailsRepository.findAll();
+    public List<Map<String, Object>> getAllCapExDetails() {
+		String sql = "SELECT * FROM expense_schema.cap_ex_details";
+		List<Map<String, Object>> capExDetailsList = dataExtractor.extractDataFromTable(sql);
+		 List<Map<String, Object>> listOfCapExDetails=new ArrayList();
+		  for(Map<String, Object> capExDetails: capExDetailsList  ) {	
+			CapExDetails capExDetails2=new CapExDetails();	
+			 listOfCapExDetails.add(capExDetails);
+		}
+        return listOfCapExDetails ;
     }
     @Override
     public CapExDetails getCapExDetailsById(int id) {

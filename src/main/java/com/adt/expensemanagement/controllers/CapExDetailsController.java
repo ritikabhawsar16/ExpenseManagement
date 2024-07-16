@@ -1,6 +1,7 @@
 package com.adt.expensemanagement.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +54,9 @@ public class CapExDetailsController {
 
 	@PreAuthorize("@auth.allow('GET_ALL_CAPITAL_EXPENSE_DETAILS')")
 	@GetMapping("/getAllCapExDetails")
-	public ResponseEntity<List<CapExDetails>> getAllCapExDetails() {
+	public ResponseEntity<List<Map<String, Object>>> getAllCapExDetails() {
 		LOGGER.info("Expenseservice: capExDetails:getAllCapExDetails info level log message");
-	    List<CapExDetails> capExDetailsList = capExDetailsService.getAllCapExDetails();
+	    List<Map<String, Object>> capExDetailsList = capExDetailsService.getAllCapExDetails();
 	    return new ResponseEntity<>(capExDetailsList, HttpStatus.OK);
 	}
   

@@ -22,6 +22,7 @@ COPY ${JAR_FILE} /usr/app/expensemanagement.jar
 
 # Final image
 FROM alpine:latest
+ENV TZ="Asia/Kolkata"
 
 # Set the working directory
 WORKDIR /usr/app
