@@ -2,16 +2,12 @@ package com.adt.expensemanagement.models;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -27,20 +23,29 @@ public class ExpenseItems {
     @Column(columnDefinition = "serial")
     private int id;
 
+    @NotBlank
     @Column(name="amount", nullable = false)
     private int amount;
+
+    @Column(name = "employee_id",nullable = false)
+    private Integer empId;
+
+    @Column(name = "status")
+    private String status;
+
 
     @Column(name="description", nullable = false)
     private String description;
 
+//    @Column(name="created_by")
+//    private String createdBy;
+
     @Column(name="payment_mode", nullable = false)
     private String paymentMode;
 
+
     @Column(name="payment_date", nullable = false)
     private LocalDate paymentDate;
-
-    @Column(name="created_by", nullable = false)
-    private String createdBy;
 
     @Column(name="category", nullable = false)
     private String category;
@@ -48,9 +53,13 @@ public class ExpenseItems {
     @Column(name="GST", nullable = false)
     private boolean gst;
 
-    @Column(name="paid_by", nullable = false)
+    @Column(name="paid_by")
     private String paidBy;
 
     @Column(name="comments", nullable = false)
     private String comments;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "EMPLOYEE_ID" ,nullable = false, insertable = false, updatable = false)
+    private User employee;
 }
