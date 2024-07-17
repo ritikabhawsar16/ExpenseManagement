@@ -112,11 +112,7 @@ public class Auth {
 		return untrusted.getBody();
 	}
 
-//	private String getTokenByUrl(HttpServletRequest request) {
-//		String token = request.getQueryString();
-//		token = token.replace("Authorization=", "");
-//		return token;
-//	}
+
 
 	private String getTokenByUrl(HttpServletRequest request) {
 		String token = request.getQueryString();

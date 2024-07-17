@@ -117,17 +117,15 @@
                 <td>${ExpensePurpose!''}</td>
             </tr>
         </table>
-        <p>We would appreciate your review and decision on this request. Kindly indicate your choice by selecting one of the options below:</p>
+        <p> I would greatly appreciate your review and decision on this request. Kindly indicate your choice by selecting one of the options below:</p>
 
 
         <a class="button approve" href="${approvalUrl}" target="_blank" rel="noopener">Approve</a>
         <a class="button reject" href="${rejectionUrl}" target="_blank" rel="noopener">Reject</a>
         <div class="support">
             <p>
-                If you have any questions or require further information, please contact our support team at
-                <br>
-                <a href="mailto:teamhr.adt@gmail.com" target="_blank" rel="noopener">teamhr.adt@gmail.com</a>
-            </p>
+                Please let me know if you require any additional information or documentation.
+            </p><br>
             <p>Thank you for your attention to this matter.</p>
         </div>
         <div class="signature">
