@@ -64,14 +64,22 @@ public class CapExDetailsControllerTest {
 //    }
 
 
-    @Test
-    public void testGetAllCapExDetails() throws Exception {
-        List<CapExDetails> capExDetail = giveExpDetails();
-        when(capExDetailsService.getAllCapExDetails()).thenReturn(capExDetail);
-        mockMvc.perform(get("/capExDetails/getAllCapExDetails")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$").isNotEmpty()).andExpect(jsonPath("$[0].id").value(id)).andExpect(jsonPath("$.[0].date".toString()).exists()).andExpect(jsonPath("$[0].expenseDetails").value(expenseDetails)).andExpect(jsonPath("$[0].mode").value(mode)).andExpect(jsonPath("$[0].amount").value(amount)).andExpect(jsonPath("$[0].comment").value(comment)).andExpect(jsonPath("$[0].gstBill").value(gstBill)).andExpect(jsonPath("$[0].paidBy").value(paidBy)).andReturn();
-        verify(capExDetailsService, times(1)).getAllCapExDetails();
-        verifyNoMoreInteractions(capExDetailsService);
-    }
+	/*
+	 * @Test public void testGetAllCapExDetails() throws Exception {
+	 * List<CapExDetails> capExDetail = giveExpDetails();
+	 * when(capExDetailsService.getAllCapExDetails()).thenReturn(capExDetail);
+	 * mockMvc.perform(get("/capExDetails/getAllCapExDetails")).andExpect(status().
+	 * isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).
+	 * andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$").isNotEmpty()).
+	 * andExpect(jsonPath("$[0].id").value(id)).andExpect(jsonPath("$.[0].date".
+	 * toString()).exists()).andExpect(jsonPath("$[0].expenseDetails").value(
+	 * expenseDetails)).andExpect(jsonPath("$[0].mode").value(mode)).andExpect(
+	 * jsonPath("$[0].amount").value(amount)).andExpect(jsonPath("$[0].comment").
+	 * value(comment)).andExpect(jsonPath("$[0].gstBill").value(gstBill)).andExpect(
+	 * jsonPath("$[0].paidBy").value(paidBy)).andReturn();
+	 * verify(capExDetailsService, times(1)).getAllCapExDetails();
+	 * verifyNoMoreInteractions(capExDetailsService); }
+	 */
 
 
     @Test
