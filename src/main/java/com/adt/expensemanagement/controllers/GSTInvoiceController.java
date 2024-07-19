@@ -35,30 +35,25 @@ public class GSTInvoiceController {
 	@PreAuthorize("@auth.allow('SAVE_GST_DETAILS')")
 	@PostMapping("/saveGSTDetails")
 	public ResponseEntity<String> saveGSTDetails(@RequestBody GSTInvoice gstInvoice) {
-
 		logger.info("Received request to save GST details: {}", gstInvoice);
 
 		GSTInvoice invoice = gstInvoiceService.findByInvoiceNumber(gstInvoice.getInvoiceNumber());
 
 		if (invoice != null) {
-
-			String invoiceNumber = invoice.getInvoiceNumber();
-			if (invoiceNumber.equals(gstInvoice.getInvoiceNumber())) {
-				String message = String.format("Invoice number '%s' already exists ", gstInvoice.getInvoiceNumber());
-				logger.warn(message);
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-						GST_Constants.DATA_ALREADY_EXIST + " FOR INVOICE NUMBER: " + gstInvoice.getInvoiceNumber());
-			}
+			String message = String.format("Invoice number '%s' already exists", gstInvoice.getInvoiceNumber());
+			logger.warn(message);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					GST_Constants.DATA_ALREADY_EXIST + " FOR INVOICE NUMBER: " + gstInvoice.getInvoiceNumber());
 		} else {
 			String saved = gstInvoiceService.saveGSTDetails(gstInvoice);
-			if (saved != null || !saved.equalsIgnoreCase("")) {
-				return ResponseEntity.status(HttpStatus.OK).body(GST_Constants.GST_DATA_SAVED);
+			if (!saved.isEmpty()) {
+				return ResponseEntity.ok(GST_Constants.GST_DATA_SAVED);
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(GST_Constants.GST_DATA_NOT_SAVED);
 			}
 		}
-		return null;
 	}
+
 
 	@PreAuthorize("@auth.allow('GET_GST_DETAILS_BY_INVOICE_NUMBER')")
 	@GetMapping("/displayGSTDetailsByInvoiceNumber/{invoiceNumber}")
@@ -115,7 +110,7 @@ public class GSTInvoiceController {
 		dataRow.createCell(5).setCellValue(gstInvoice.getCustomerId());
 		dataRow.createCell(6).setCellValue(gstInvoice.getPaidTo());
 		dataRow.createCell(7).setCellValue(gstInvoice.getTaxableAmount().doubleValue());
-		dataRow.createCell(8).setCellValue(gstInvoice.getTds().doubleValue());
+//		dataRow.createCell(8).setCellValue(gstInvoice.getTds().doubleValue());
 		dataRow.createCell(9).setCellValue(gstInvoice.getGst().doubleValue());
 		dataRow.createCell(10).setCellValue(gstInvoice.getInvoiceAmount().doubleValue());
 		dataRow.createCell(11).setCellValue(gstInvoice.getReceivable().doubleValue());
@@ -123,8 +118,8 @@ public class GSTInvoiceController {
 		dataRow.createCell(13).setCellValue(gstInvoice.getDateReceived());
 		dataRow.createCell(14).setCellValue(gstInvoice.getInvoiceBalance().doubleValue());
 		dataRow.createCell(15).setCellValue(gstInvoice.getStatus());
-		dataRow.createCell(16).setCellValue(gstInvoice.getTdsCredited().doubleValue());
-		dataRow.createCell(17).setCellValue(gstInvoice.getTdsBalance().doubleValue());
+//		dataRow.createCell(16).setCellValue(gstInvoice.getTdsCredited().doubleValue());
+//		dataRow.createCell(17).setCellValue(gstInvoice.getTdsBalance().doubleValue());
 
 		for (int i = 0; i < colNames.length; i++) {
 			Cell cell = headerRow.createCell(i);
@@ -176,7 +171,7 @@ public class GSTInvoiceController {
 			dataRow.createCell(5).setCellValue(gstInvoice.getCustomerId());
 			dataRow.createCell(6).setCellValue(gstInvoice.getPaidTo());
 			dataRow.createCell(7).setCellValue(gstInvoice.getTaxableAmount().doubleValue());
-			dataRow.createCell(8).setCellValue(gstInvoice.getTds().doubleValue());
+//			dataRow.createCell(8).setCellValue(gstInvoice.getTds().doubleValue());
 			dataRow.createCell(9).setCellValue(gstInvoice.getGst().doubleValue());
 			dataRow.createCell(10).setCellValue(gstInvoice.getInvoiceAmount().doubleValue());
 			dataRow.createCell(11).setCellValue(gstInvoice.getReceivable().doubleValue());
@@ -184,8 +179,8 @@ public class GSTInvoiceController {
 			dataRow.createCell(13).setCellValue(gstInvoice.getDateReceived());
 			dataRow.createCell(14).setCellValue(gstInvoice.getInvoiceBalance().doubleValue());
 			dataRow.createCell(15).setCellValue(gstInvoice.getStatus());
-			dataRow.createCell(16).setCellValue(gstInvoice.getTdsCredited().doubleValue());
-			dataRow.createCell(17).setCellValue(gstInvoice.getTdsBalance().doubleValue());
+//			dataRow.createCell(16).setCellValue(gstInvoice.getTdsCredited().doubleValue());
+//			dataRow.createCell(17).setCellValue(gstInvoice.getTdsBalance().doubleValue());
 			rowNum++;
 		}
 
@@ -222,7 +217,7 @@ public class GSTInvoiceController {
 			existingInvoice.setCustomerId(updatedInvoice.getCustomerId());
 			existingInvoice.setPaidTo(updatedInvoice.getPaidTo());
 			existingInvoice.setTaxableAmount(updatedInvoice.getTaxableAmount());
-			existingInvoice.setTds(updatedInvoice.getTds());
+//			existingInvoice.setTds(updatedInvoice.getTds());
 			existingInvoice.setGst(updatedInvoice.getGst());
 			existingInvoice.setInvoiceAmount(updatedInvoice.getInvoiceAmount());
 			existingInvoice.setReceivable(updatedInvoice.getReceivable());
@@ -231,8 +226,8 @@ public class GSTInvoiceController {
 			existingInvoice.setInvoiceBalance(updatedInvoice.getInvoiceBalance());
 //			existingInvoice.setStatus(updatedInvoice.getStatus());
 			existingInvoice.setStatus("Completed");
-			existingInvoice.setTdsCredited(updatedInvoice.getTdsCredited());
-			existingInvoice.setTdsBalance(updatedInvoice.getTdsBalance());
+//			existingInvoice.setTdsCredited(updatedInvoice.getTdsCredited());
+//			existingInvoice.setTdsBalance(updatedInvoice.getTdsBalance());
 
 			String updated = gstInvoiceService.updateGSTDetailsByInvoiceNumber(existingInvoice);
 			if (updated != null || !updated.equalsIgnoreCase("")) {
