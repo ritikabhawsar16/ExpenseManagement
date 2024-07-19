@@ -32,7 +32,7 @@ public class GSTInvoiceController {
 	@Autowired
 	private GSTInvoiceService gstInvoiceService;
 
-//	@PreAuthorize("@auth.allow('SAVE_GST_DETAILS')")
+	@PreAuthorize("@auth.allow('SAVE_GST_DETAILS')")
 	@PostMapping("/saveGSTDetails")
 	public ResponseEntity<String> saveGSTDetails(@RequestBody GSTInvoice gstInvoice) {
 		logger.info("Received request to save GST details: {}", gstInvoice);
