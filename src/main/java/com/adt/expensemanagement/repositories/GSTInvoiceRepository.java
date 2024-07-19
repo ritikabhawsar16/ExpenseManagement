@@ -24,4 +24,5 @@ public interface GSTInvoiceRepository extends JpaRepository<GSTInvoice, Long> {
 	@Query(value = "DELETE FROM expense_schema.gstinvoice i WHERE i.invoice_number = :invoiceNumber", nativeQuery = true)
 	int deleteByInvoiceNumber(String invoiceNumber);
 
+	boolean existsByInvoiceNumber(String invoiceNumber);
 }

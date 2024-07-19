@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GSTInvoiceService {
 
-	String saveGSTDetails(GSTInvoice gstInvoice);
+	 public String saveGSTDetails(GSTInvoice gstInvoice);
 
 	GSTInvoice findById(Long id);
 
