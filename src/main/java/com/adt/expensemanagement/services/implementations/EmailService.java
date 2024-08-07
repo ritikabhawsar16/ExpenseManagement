@@ -69,7 +69,7 @@ public class EmailService implements CommonEmailService {
             mail.setTo(email);
             mail.getModel().put("approvalUrl", approveUrl + "?Authorization=" + token);
             mail.getModel().put("rejectionUrl", rejectUrl + "?Authorization=" + token);
-            mail.getModel().put("ApplicantName",event.getExpenseItems().getPaidBy().toString());
+//            mail.getModel().put("ApplicantName",event.getExpenseItems().getPaidBy().toString());
             mail.getModel().put("ExpenseAmount", String.valueOf(event.getExpenseItems().getAmount()));
             mail.getModel().put("ExpenseDate", String.valueOf(event.getExpenseItems().getPaymentDate()));
             mail.getModel().put("ExpensePurpose",event.getExpenseItems().getDescription().toString());

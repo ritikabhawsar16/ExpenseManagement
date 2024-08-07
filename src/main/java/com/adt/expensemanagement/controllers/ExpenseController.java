@@ -88,7 +88,7 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenses, HttpStatus.OK);
 	}
 
-	@PreAuthorize("@auth.allow('CREATE_EXPENSES')")
+//	@PreAuthorize("@auth.allow('CREATE_EXPENSES')")
 	@PostMapping("/createExpenses")
 	public ResponseEntity<ApiResponse> createExpenses(@RequestBody @Valid ExpenseItems expenseItems,
 													  HttpServletRequest request) {

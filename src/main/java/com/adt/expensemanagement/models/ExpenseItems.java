@@ -53,8 +53,8 @@ public class ExpenseItems {
     @Column(name="GST", nullable = false)
     private boolean gst;
 
-    @Column(name="paid_by")
-    private String paidBy;
+//    @Column(name="paid_by")
+//    private String paidBy;
 
     @Column(name="comments", nullable = false)
     private String comments;
