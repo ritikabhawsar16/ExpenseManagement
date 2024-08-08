@@ -48,11 +48,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public ExpenseItems createExpenses(ExpenseItems expenseItems) {
-
-
-		if (!ExpenseUtility.validateAmountAndId(expenseItems.getId())) {
-			throw new IllegalArgumentException("Invalid ID");
-		}
+//		if (!ExpenseUtility.validateAmountAndId(expenseItems.getId())) {
+//			throw new IllegalArgumentException("Invalid ID");
+//		}
 		if (!ExpenseUtility.validateAmountAndId(expenseItems.getEmpId())) {
 			throw new IllegalArgumentException("Invalid Employee ID");
 		}
@@ -71,9 +69,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if (!ExpenseUtility.validateExpenses(expenseItems.getCategory())) {
 			throw new IllegalArgumentException("Invalid Category Details");
 		}
-		if (!ExpenseUtility.validateExpenses(expenseItems.getPaidBy())) {
-			throw new IllegalArgumentException("Invalid Paid Details");
-		}
+//		if (!ExpenseUtility.validateExpenses(expenseItems.getPaidBy())) {
+//			throw new IllegalArgumentException("Invalid Paid Details");
+//		}
 		if (!ExpenseUtility.validateExpenses(expenseItems.getComments())) {
 			throw new IllegalArgumentException("Invalid Output");
 		}
@@ -99,7 +97,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 		exModel.get().setPaymentDate(expenseModel.getPaymentDate());
 		exModel.get().setPaymentMode(expenseModel.getPaymentMode());
 		exModel.get().setGst(expenseModel.isGst());
-		exModel.get().setPaidBy(expenseModel.getPaidBy());
+//		exModel.get().setPaidBy(expenseModel.getPaidBy());
 		exModel.get().setComments(expenseModel.getComments());
 		expenseRepository.save(exModel.get());
 		return "update successfully";
