@@ -1,12 +1,9 @@
 package com.adt.expensemanagement.services.interfaces;
 
-import java.io.IOException;
+
 import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 
-import freemarker.template.TemplateException;
-import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Repository;
 
 import com.adt.expensemanagement.models.ExpenseItems;
@@ -30,6 +27,5 @@ public interface ExpenseService {
 
 	public String deleteAllExpenseByIds(List<Integer> ids);
     public String deleteExpenseById(int id);
-    public  String updateExpenseStatus(int id, String status);
-    public  String getExpenseStatus(int id);
+
 }

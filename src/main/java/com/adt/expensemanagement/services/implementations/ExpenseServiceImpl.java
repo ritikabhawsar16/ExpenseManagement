@@ -1,6 +1,6 @@
 package com.adt.expensemanagement.services.implementations;
 
-import java.io.IOException;
+
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -8,12 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-
 import com.adt.expensemanagement.util.ExpenseUtility;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +22,6 @@ import com.adt.expensemanagement.repositories.OutboundExpenseRepo;
 import com.adt.expensemanagement.services.interfaces.ExpenseService;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -43,14 +37,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Autowired
 	private OutboundExpenseRepo outboundExpenseRepo;
 
-	@Autowired
-	private EmailService emailService;
-
 	@Override
 	public ExpenseItems createExpenses(ExpenseItems expenseItems) {
-//		if (!ExpenseUtility.validateAmountAndId(expenseItems.getId())) {
-//			throw new IllegalArgumentException("Invalid ID");
-//		}
+
 		if (!ExpenseUtility.validateAmountAndId(expenseItems.getEmpId())) {
 			throw new IllegalArgumentException("Invalid Employee ID");
 		}
@@ -63,15 +52,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if (!ExpenseUtility.validateExpenses(expenseItems.getPaymentMode())) {
 			throw new IllegalArgumentException("Invalid Payment Details");
 		}
-//		if (!ExpenseUtility.validateExpenses(expenseItems.getCreatedBy())) {
-//			throw new IllegalArgumentException("Invalid CreatedBy Details");
-//		}
+
 		if (!ExpenseUtility.validateExpenses(expenseItems.getCategory())) {
 			throw new IllegalArgumentException("Invalid Category Details");
 		}
-//		if (!ExpenseUtility.validateExpenses(expenseItems.getPaidBy())) {
-//			throw new IllegalArgumentException("Invalid Paid Details");
-//		}
+
 		if (!ExpenseUtility.validateExpenses(expenseItems.getComments())) {
 			throw new IllegalArgumentException("Invalid Output");
 		}
@@ -187,26 +172,5 @@ public class ExpenseServiceImpl implements ExpenseService {
 		}
 		return "No data found for selected id";
 	}
-	@Override
-	public String updateExpenseStatus(int id, String status) {
-		Optional<ExpenseItems> expense = expenseRepository.findById(id);
-		if (expense.isPresent()) {
-			ExpenseItems expenseItem = expense.get();
-			expenseItem.setStatus(status);
-			expenseRepository.save(expenseItem);
-			return "Expense updated Successfully";
-		}
-		return "Expense not found";
-	}
-
-	public String getExpenseStatus(int id) {
-
-		Optional<ExpenseItems> expenseOpt = expenseRepository.findById(id);
-		if (expenseOpt.isPresent()) {
-			ExpenseItems expense = expenseOpt.get();
-			return expense.getStatus();
-		} else {
-			throw new RuntimeException("Expense not found with ID: " + id);
-		}
-	}
 }
+
