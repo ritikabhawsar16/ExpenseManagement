@@ -8,7 +8,6 @@ import com.adt.expensemanagement.util.TableDataExtractor;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +46,13 @@ public class EmailService implements CommonEmailService {
     @Autowired
     private UserRepo userRepo;
 
-    @Value("${spring.mail.username}")
-    private String sender;
 
     @Autowired
     private RestTemplate restTemplate;
 
 
     @Override
-    public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException, MessagingException {
+    public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException {
         Mail mail = new Mail();
         mail.setSubject("Expense Approval Request");
 
@@ -84,7 +81,7 @@ public class EmailService implements CommonEmailService {
             Template template = templateConfiguration.getTemplate("expense_status_approval.ftl");
             String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
             mail.setContent(mailContent);
-            String url = emailServiceUrl + "/emails/send";
+            String url = emailServiceUrl + "/utility/emails/send";
             HttpEntity<Mail> request = new HttpEntity<>(mail);
             restTemplate.postForEntity(url, request, String.class);
 
@@ -103,7 +100,7 @@ public class EmailService implements CommonEmailService {
 
         Mail mail = new Mail();
         mail.setSubject(subject);
-        mail.setFrom(sender);
+       // mail.setFrom(sender);
         mail.setTo(userEmail);
 
         Map<String, Object> model = new HashMap<>();
@@ -118,7 +115,7 @@ public class EmailService implements CommonEmailService {
             Template template = templateConfiguration.getTemplate("approve_and_reject_expense_request.ftl");
             String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
             mail.setContent(mailContent);
-            String url = emailServiceUrl + "/emails/send";
+            String url = emailServiceUrl + "/utility/emails/send";
             HttpEntity<Mail> request = new HttpEntity<>(mail);
             restTemplate.postForEntity(url, request, String.class);
         } catch (IOException | TemplateException e) {
@@ -134,7 +131,7 @@ public class EmailService implements CommonEmailService {
 
         try {
             sendEmail(event, emailApprovalUrl, emailRejectionUrl, expenseItems);
-        } catch (IOException | TemplateException | MessagingException e) {
+        } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
