@@ -8,7 +8,6 @@ import com.adt.expensemanagement.util.TableDataExtractor;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class EmailService implements CommonEmailService {
 
 
     @Override
-    public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException, MessagingException {
+    public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException {
         Mail mail = new Mail();
         mail.setSubject("Expense Approval Request");
 
@@ -132,7 +131,7 @@ public class EmailService implements CommonEmailService {
 
         try {
             sendEmail(event, emailApprovalUrl, emailRejectionUrl, expenseItems);
-        } catch (IOException | TemplateException | MessagingException e) {
+        } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
