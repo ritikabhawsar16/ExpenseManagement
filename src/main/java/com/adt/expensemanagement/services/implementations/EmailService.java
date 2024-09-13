@@ -53,7 +53,7 @@ public class EmailService implements CommonEmailService {
 
     @Override
     public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException {
-        log.info("sendEmail for OnExpenseRequestSaveEvent process");
+        log.info("sendEmail method for sending mail and set ftl file content");
         Mail mail = new Mail();
         mail.setSubject("Expense Approval Request");
 
@@ -78,13 +78,17 @@ public class EmailService implements CommonEmailService {
             mail.getModel().put("ExpenseDate", String.valueOf(event.getExpenseItem().getPaymentDate()));
             mail.getModel().put("ExpensePurpose", event.getExpenseItem().getDescription().toString());
 
-            templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
-            Template template = templateConfiguration.getTemplate("expense_status_approval.ftl");
-            String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
-            mail.setContent(mailContent);
-            String url = emailServiceUrl + "/emails/send";
-            HttpEntity<Mail> request = new HttpEntity<>(mail);
-            restTemplate.postForEntity(url, request, String.class);
+            try {
+                templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
+                Template template = templateConfiguration.getTemplate("expense_status_approval.ftl");
+                String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
+                mail.setContent(mailContent);
+                String url = emailServiceUrl + "/emails/send";
+                HttpEntity<Mail> request = new HttpEntity<>(mail);
+                restTemplate.postForEntity(url, request, String.class);
+            } catch (IOException | TemplateException e) {
+                log.error("Error while sending expense status email: ", e);
+            }
 
         }
     }
@@ -97,7 +101,7 @@ public class EmailService implements CommonEmailService {
         String userEmail = user.get().getEmail();
         String employeeName = user.get().getFirstName() + " " + user.get().getLastName();
         String subject = "Expense " + event.getActionStatus();
-        String message = "Your expense request has been " + event.getActionStatus()+".Below are the expense request details.";
+        String message = "Your expense request has been " + event.getActionStatus() + ".Below are the expense request details.";
 
         Mail mail = new Mail();
         mail.setSubject(subject);
@@ -125,7 +129,6 @@ public class EmailService implements CommonEmailService {
 
     @Override
     public void sendEmail(OnExpenseRequestSaveEvent event) {
-        log.info("send email method for convert url to uri string");
         ExpenseItems expenseItems = event.getExpenseItem();
         String emailApprovalUrl = event.getApproveUrlBuilder().toUriString();
         String emailRejectionUrl = event.getRejectUrlBuilder().toUriString();

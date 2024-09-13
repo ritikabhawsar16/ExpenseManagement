@@ -91,17 +91,16 @@
         </p>
          <table>
             <tr>
-
                  <th>Expense Amount</th>
-                 <td>${ExpenseAmount!''}</td>
+                  <td><span id="ExpenseAmount">${ExpenseAmount}</span></td>
             </tr>
             <tr>
                 <th>Expense Date</th>
-                <td>${ExpenseDate!''}</td>
+                <td><span id="ExpenseDate">${ExpenseDate}</span></td>
             </tr>
             <tr>
                  <th>Expense Purpose</th>
-                 <td>${ExpensePurpose!''}</td>
+                 <td><span id="ExpensePurpose">${ExpensePurpose}</span></td>
             </tr>
 
         </table>
