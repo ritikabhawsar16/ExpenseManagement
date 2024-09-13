@@ -134,6 +134,7 @@ public class ExpenseController {
             }
 
             if (currentStatus.equalsIgnoreCase(eventStatus)) {
+                LOGGER.info("Rechecking expense confirmation status");
                 model.put("Message", "Expense is already " + eventStatus + "!");
                 return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.OK);
             }
@@ -145,6 +146,7 @@ public class ExpenseController {
             OnExpenseRequestSaveEvent event = new OnExpenseRequestSaveEvent(expense, action, eventStatus);
             applicationEventPublisher.publishEvent(event);
 
+            LOGGER.info("expense confirmation message");
             model.put("Message", "Expense request has been successfully " + eventStatus + "!");
             return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.OK);
 

@@ -53,6 +53,7 @@ public class EmailService implements CommonEmailService {
 
     @Override
     public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException {
+        log.info("sendEmail for OnExpenseRequestSaveEvent process");
         Mail mail = new Mail();
         mail.setSubject("Expense Approval Request");
 
@@ -124,6 +125,7 @@ public class EmailService implements CommonEmailService {
 
     @Override
     public void sendEmail(OnExpenseRequestSaveEvent event) {
+        log.info("send email method for convert url to uri string");
         ExpenseItems expenseItems = event.getExpenseItem();
         String emailApprovalUrl = event.getApproveUrlBuilder().toUriString();
         String emailRejectionUrl = event.getRejectUrlBuilder().toUriString();
