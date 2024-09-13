@@ -102,19 +102,19 @@
         <table>
            <tr>
              <th>Employee Name</th>
-             <td>${EmployeeName!''}</span></td>
+             <td><span id="EmployeeName">${EmployeeName}</span></td>
            </tr>
             <tr>
                 <th>Expense Amount</th>
-                <td>${ExpenseAmount!''}</td>
+                <td><span id="ExpenseAmount">${ExpenseAmount}</span></td>
             </tr>
             <tr>
                 <th>Expense Date</th>
-                <td>${ExpenseDate!''}</td>
+                <td><span id="ExpenseDate">${ExpenseDate}</span></td>
             </tr>
             <tr>
                 <th>Expense Purpose</th>
-                <td>${ExpensePurpose!''}</td>
+                <td><span id="ExpensePurpose">${ExpensePurpose}</span></td>
             </tr>
         </table>
         <p> I would greatly appreciate your review and decision on this request. Kindly indicate your choice by selecting one of the options below:</p>
