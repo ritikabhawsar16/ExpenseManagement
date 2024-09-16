@@ -83,10 +83,11 @@ public class ExpenseController {
     public ResponseEntity<ApiResponse> createExpenses(@RequestBody @Valid ExpenseItems expenseItems,
                                                       HttpServletRequest request) {
 
-        LOGGER.info("API Call From IP: " + request.getRemoteHost());
+        LOGGER.info("API Call From IP: " + request.getRemoteHost() + " - Creating expense for Employee ID: " + expenseItems.getEmpId());
         try {
             expenseItems.setStatus("Pending");
             ExpenseItems savedExpense = expenseService.createExpenses(expenseItems);
+            LOGGER.info("Expense created successfully with ID: " + savedExpense.getId());
 
             int expenseId = savedExpense.getId();
             UriComponentsBuilder approveUrlBuilder = ServletUriComponentsBuilder.newInstance()
@@ -94,19 +95,22 @@ public class ExpenseController {
                     .host(ipAddress)
                     .port(serverPort)
                     .path(context + "/expensemanagement/approveOrRejectExpense/" + expenseId + "/approved");
+            LOGGER.info("Approval URL created: " + approveUrlBuilder.toUriString());
 
             UriComponentsBuilder rejectUrlBuilder = ServletUriComponentsBuilder.newInstance()
                     .scheme(scheme)
                     .host(ipAddress)
                     .port(serverPort)
                     .path(context + "/expensemanagement/approveOrRejectExpense/" + expenseId + "/rejected");
+            LOGGER.info("Rejection URL created: " + rejectUrlBuilder.toUriString());
 
             OnExpenseRequestSaveEvent onExpenseCreatedEvent = new OnExpenseRequestSaveEvent(approveUrlBuilder, rejectUrlBuilder, savedExpense);
             applicationEventPublisher.publishEvent(onExpenseCreatedEvent);
+            LOGGER.info("Expense request save event published successfully for Expense ID: " + expenseId);
 
             return ResponseEntity.ok(new ApiResponse(true, "Expense is created and Mail sent successfully."));
         } catch (Exception e) {
-            LOGGER.error("Error creating expense: " + e.getMessage(), e);
+            LOGGER.error("Error creating expense for Employee ID: " + expenseItems.getEmpId() + " - " + e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -132,13 +136,11 @@ public class ExpenseController {
             if (!"approved".equals(eventStatus) && !"rejected".equals(eventStatus)) {
                 return new ResponseEntity<>("Invalid action", HttpStatus.BAD_REQUEST);
             }
-
             if (currentStatus.equalsIgnoreCase(eventStatus)) {
                 LOGGER.info("Rechecking expense confirmation status");
                 model.put("Message", "Expense is already " + eventStatus + "!");
                 return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.OK);
             }
-
             // Update the expense status
             expense.setStatus(eventStatus);
             expenseRepository.save(expense);
