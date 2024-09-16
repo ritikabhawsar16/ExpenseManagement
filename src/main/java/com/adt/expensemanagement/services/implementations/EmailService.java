@@ -94,6 +94,7 @@ public class EmailService implements CommonEmailService {
             }
             //*** Sending email through email service ***
             try {
+                log.info("calling utility service");
                 String url = emailServiceUrl + "/emails/send";
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON); //correctly set content-type
