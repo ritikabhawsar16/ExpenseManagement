@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.client.RestTemplate;
@@ -53,7 +55,7 @@ public class EmailService implements CommonEmailService {
 
     @Override
     public void sendEmail(OnExpenseRequestSaveEvent event, String approveUrl, String rejectUrl, ExpenseItems expenseItems) throws TemplateException, IOException {
-        log.info("sendEmail method for sending mail and set ftl file content");
+        log.info("Entering sendEmail method to prepare and send expense approval request email.");
         Mail mail = new Mail();
         mail.setSubject("Expense Approval Request");
 
@@ -78,18 +80,29 @@ public class EmailService implements CommonEmailService {
             mail.getModel().put("ExpenseDate", String.valueOf(event.getExpenseItem().getPaymentDate()));
             mail.getModel().put("ExpensePurpose", event.getExpenseItem().getDescription().toString());
 
+            //*** Processing FreeMarker template ***
             try {
                 templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
                 Template template = templateConfiguration.getTemplate("expense_status_approval.ftl");
                 String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
                 mail.setContent(mailContent);
-                String url = emailServiceUrl + "/emails/send";
-                HttpEntity<Mail> request = new HttpEntity<>(mail);
-                restTemplate.postForEntity(url, request, String.class);
+                log.info("Email content successfully created using the FreeMarker template.");
             } catch (IOException | TemplateException e) {
-                log.error("Error while sending expense status email: ", e);
+                log.error("Failed to process FreeMarker template for expense approval/rejection email." + e.getMessage());
+            } catch (Exception e) {
+                log.error("Failed to process FreeMarker template" + e.getMessage());
             }
-
+            //*** Sending email through email service ***
+            try {
+                log.info("calling utility service");
+                String url = emailServiceUrl + "/emails/send";
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON); //correctly set content-type
+                HttpEntity<Mail> request = new HttpEntity<>(mail, headers);
+                restTemplate.postForEntity(url, request, String.class);
+            } catch (Exception e) {
+                log.error("Failed to send email" + e.getMessage());
+            }
         }
     }
 
