@@ -87,27 +87,21 @@ public class ExpenseController {
         try {
             expenseItems.setStatus("Pending");
             ExpenseItems savedExpense = expenseService.createExpenses(expenseItems);
-            LOGGER.info("Expense created successfully with ID: " + savedExpense.getId());
-
             int expenseId = savedExpense.getId();
             UriComponentsBuilder approveUrlBuilder = ServletUriComponentsBuilder.newInstance()
                     .scheme(scheme)
                     .host(ipAddress)
                     .port(serverPort)
                     .path(context + "/expensemanagement/approveOrRejectExpense/" + expenseId + "/approved");
-            LOGGER.info("Approval URL created: " + approveUrlBuilder.toUriString());
 
             UriComponentsBuilder rejectUrlBuilder = ServletUriComponentsBuilder.newInstance()
                     .scheme(scheme)
                     .host(ipAddress)
                     .port(serverPort)
                     .path(context + "/expensemanagement/approveOrRejectExpense/" + expenseId + "/rejected");
-            LOGGER.info("Rejection URL created: " + rejectUrlBuilder.toUriString());
 
             OnExpenseRequestSaveEvent onExpenseCreatedEvent = new OnExpenseRequestSaveEvent(approveUrlBuilder, rejectUrlBuilder, savedExpense);
             applicationEventPublisher.publishEvent(onExpenseCreatedEvent);
-            LOGGER.info("Expense request save event published successfully for Expense ID: " + expenseId);
-
             return ResponseEntity.ok(new ApiResponse(true, "Expense is created and Mail sent successfully."));
         } catch (Exception e) {
             LOGGER.error("Error creating expense for Employee ID: " + expenseItems.getEmpId() + " - " + e.getMessage(), e);
@@ -115,6 +109,7 @@ public class ExpenseController {
         }
 
     }
+
     @PreAuthorize("@auth.allow('APPROVE_REJECT_EXPENSES')")
     @GetMapping("/approveOrRejectExpense/{id}/{action}")
     public ResponseEntity<String> approveOrRejectExpense(@PathVariable int id, @PathVariable String action, HttpServletRequest request) {
@@ -128,32 +123,31 @@ public class ExpenseController {
             if (!expenseOpt.isPresent()) {
                 return new ResponseEntity<>("Expense not found", HttpStatus.NOT_FOUND);
             }
-
             ExpenseItems expense = expenseOpt.get();
-            String currentStatus = expense.getStatus();
+            String currentStatus = expense.getStatus().toLowerCase();
             String eventStatus = action.toLowerCase();
 
-            if (!"approved".equals(eventStatus) && !"rejected".equals(eventStatus)) {
-                return new ResponseEntity<>("Invalid action", HttpStatus.BAD_REQUEST);
-            }
-            if (currentStatus.equalsIgnoreCase(eventStatus)) {
-                LOGGER.info("Rechecking expense confirmation status");
+            if (currentStatus.equals(eventStatus)) {
                 model.put("Message", "Expense is already " + eventStatus + "!");
                 return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.OK);
+            }
+            if ("approved".equals(currentStatus) && "rejected".equals(eventStatus)) {
+                model.put("Message", "Expense is already approved and cannot be rejected!");
+                return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.BAD_REQUEST);
+            }
+            if ("rejected".equals(currentStatus) && "approved".equals(eventStatus)) {
+                model.put("Message", "Expense is already rejected and cannot be approved!");
+                return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.BAD_REQUEST);
             }
             // Update the expense status
             expense.setStatus(eventStatus);
             expenseRepository.save(expense);
-
             OnExpenseRequestSaveEvent event = new OnExpenseRequestSaveEvent(expense, action, eventStatus);
             applicationEventPublisher.publishEvent(event);
-
-            LOGGER.info("expense confirmation message");
             model.put("Message", "Expense request has been successfully " + eventStatus + "!");
             return new ResponseEntity<>(FreeMarkerTemplateUtils.processTemplateIntoString(template, model), HttpStatus.OK);
-
         } catch (Exception e) {
-            LOGGER.error("An unexpected error occurred: ", e);
+            LOGGER.error("Error occurred while approving/rejecting expense: ", e);
             return new ResponseEntity<>("Internal Server Error: An unexpected error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
