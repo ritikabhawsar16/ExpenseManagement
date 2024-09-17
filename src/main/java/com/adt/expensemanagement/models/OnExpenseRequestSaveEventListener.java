@@ -30,7 +30,6 @@ public class OnExpenseRequestSaveEventListener implements ApplicationListener<On
             LOGGER.info("Handling expense approval/rejection event");
             emailService.sendExpenseApproveAndRejectedEmail(event);
         }
-
         else if (event.getApproveUrlBuilder() != null && event.getRejectUrlBuilder() != null) {
             LOGGER.info("Handling expense request save event");
             emailService.sendEmail(event);
