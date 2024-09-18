@@ -53,8 +53,11 @@ public class ExpenseItems {
     @Column(name="GST", nullable = false)
     private boolean gst;
 
-//    @Column(name="paid_by")
-//    private String paidBy;
+    @Column(name="paid_by")
+    private String paidBy;
+
+    @Column(name="settled_date")
+    private LocalDate settledDate;
 
     @Column(name="comments", nullable = false)
     private String comments;

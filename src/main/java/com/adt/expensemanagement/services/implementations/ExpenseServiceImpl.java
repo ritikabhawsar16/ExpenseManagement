@@ -74,19 +74,27 @@ public class ExpenseServiceImpl implements ExpenseService {
 			LOGGER.error(message = message + id);
 			throw new EntityNotFoundException(message);
 		}
+
 		exModel.get().setEmpId(expenseModel.getEmpId());
 		exModel.get().setAmount(expenseModel.getAmount());
 		exModel.get().setStatus(expenseModel.getStatus());
-		//exModel.get().setCreatedBy(expenseModel.getCreatedBy());
 		exModel.get().setDescription(expenseModel.getDescription());
 		exModel.get().setPaymentDate(expenseModel.getPaymentDate());
 		exModel.get().setPaymentMode(expenseModel.getPaymentMode());
 		exModel.get().setGst(expenseModel.isGst());
-//		exModel.get().setPaidBy(expenseModel.getPaidBy());
 		exModel.get().setComments(expenseModel.getComments());
-		expenseRepository.save(exModel.get());
-		return "update successfully";
 
+		ExpenseItems existingExpense = exModel.get();
+
+		if ("Settled".equalsIgnoreCase(expenseModel.getStatus())) {
+			existingExpense.setPaidBy(expenseModel.getPaidBy());
+			existingExpense.setSettledDate(expenseModel.getSettledDate() != null ? expenseModel.getSettledDate() : LocalDate.now());
+		} else {
+			existingExpense.setSettledDate(null);
+		}
+        //expenseRepository.save(exModel.get());
+		expenseRepository.save(existingExpense);
+		return "Expense updated successfully";
 	}
 
 	@Override
